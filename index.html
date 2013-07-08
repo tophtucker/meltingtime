@@ -23,9 +23,10 @@
 			stroke: white;
 			stroke-width: 2;
 			transition: fill 1s;
-			transform-origin: 50% 100%;
-			-moz-transform-origin: 50% 100%;
+			/*transform-origin: -50% -100%;*/
 			-webkit-transform-origin: 50% 100%;
+			-webkit-transform: scale(.75,.2);
+			transform: scale(.75,.2);
 		}
 		
 		#scoop
@@ -187,12 +188,15 @@
 		x.innerHTML="Latitude: " + position.coords.latitude + 
 		"<br>Longitude: " + position.coords.longitude;	
 		
+		console.log(position);
+		
 		userLat = position.coords.latitude;
 		userLong = position.coords.longitude;
 		
 		$.ajax({
 			type: "GET",
-			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
+			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+position.coords.latitude+","+position.coords.longitude,
+			dataType: 'jsonp',
 			success: function(result){
 				$("#notifications").html(result);
 				console.log(result);
