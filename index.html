@@ -23,28 +23,37 @@
 			stroke: white;
 			stroke-width: 2;
 			transition: fill 1s;
-			transform-origin: center bottom;
-			-webkit-transform-origin: center bottom;
+			transform-origin: 50% 100%;
+			-moz-transform-origin: 50% 100%;
+			-webkit-transform-origin: 50% 100%;
 		}
 		
-
 		#scoop
 		{
+			/*
 			animation-name: myfirst;
 			animation-duration: 10s;
 			animation-timing-function: linear;
+			*/
 			-webkit-animation-name: myfirst;
 			-webkit-animation-duration: 10s;
 			-webkit-animation-timing-function: linear;
 		}
+		@keyframes myfirst 
+		{
+			0%   {
+				transform: scale(1,1);
+			}
+			100% {
+				transform: scale(.75,.2);
+			}
+		}
 		@-webkit-keyframes myfirst 
 		{
 			0%   {
-				transform: scale(1,1) translate(0px, 0px);
 				-webkit-transform: scale(1,1) translate(0px, 0px);
 			}
 			100% {
-				transform: scale(.75,.2) translate(0px, 5px);
 				-webkit-transform: scale(.75,.2) translate(0px, 5px);
 			}
 		}
@@ -141,6 +150,7 @@
 					<polygon points="59.235,35.333 61.99,41.242 67.446,38.698 67.653,37.999 65.129,32.585 "/>
 					<g id="scoop">
 						<path d="M73.323,17.376C72.209,5.197,61.969-4.342,49.5-4.342S26.792,5.197,25.677,17.376c-2.589,1.119-4.401,3.694-4.401,6.693   c0,4.026,3.264,7.29,7.29,7.29c2.054,0,3.909-0.851,5.233-2.218c1.325,1.367,3.18,2.218,5.234,2.218s3.909-0.851,5.233-2.218   c1.325,1.367,3.18,2.218,5.234,2.218s3.909-0.851,5.233-2.218c1.325,1.367,3.18,2.218,5.234,2.218c2.054,0,3.908-0.851,5.233-2.218   c1.325,1.367,3.18,2.218,5.233,2.218c4.026,0,7.29-3.263,7.29-7.29C77.725,21.07,75.912,18.494,73.323,17.376z"/>
+						<animateTransform type="scale" dur="7s" attributeType="XML" to=".8 .2" attributeName="transform" repeatCount="1" from="1 1"/>
 					</g>
 				</svg>
 			</div>
@@ -177,6 +187,9 @@
 	{
 		x.innerHTML="Latitude: " + position.coords.latitude + 
 		"<br>Longitude: " + position.coords.longitude;	
+		
+		userLat = position.coords.latitude;
+		userLong = position.coords.longitude;
 		
 		$.ajax({
 			type: "GET",
