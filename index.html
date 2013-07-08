@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Bootstrap, from Twitter</title>
+	<title>Melting time</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -18,6 +18,38 @@
 		#icecream-container {
 			float:right;
 		}
+		#scoop {
+			fill: black;
+			stroke: white;
+			stroke-width: 2;
+			transition: fill 1s;
+			transform-origin: center bottom;
+			-webkit-transform-origin: center bottom;
+		}
+		
+
+		#scoop
+		{
+			animation-name: myfirst;
+			animation-duration: 10s;
+			animation-timing-function: linear;
+			-webkit-animation-name: myfirst;
+			-webkit-animation-duration: 10s;
+			-webkit-animation-timing-function: linear;
+		}
+		@-webkit-keyframes myfirst 
+		{
+			0%   {
+				transform: scale(1,1) translate(0px, 0px);
+				-webkit-transform: scale(1,1) translate(0px, 0px);
+			}
+			100% {
+				transform: scale(.75,.2) translate(0px, 5px);
+				-webkit-transform: scale(.75,.2) translate(0px, 5px);
+			}
+		}
+		
+		
 	</style>
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -46,9 +78,11 @@
 			
 				<h1>How long will it take my ice cream to melt?</h1>
 				<p>In Brunswick, Maine, the temperature is 60ºF.</p>
-
+				<p id="demo">...</p>
+				<p id="notifications">...</p>
+				
 				<div class="btn-toolbar">
-					<div class="btn-group" id="flavor">
+					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="flavor">
 					<button class="btn" data-flavor="chocolate">Chocolate</button>
 					<button class="btn" data-flavor="coffee">Coffee</button>
 					<button class="btn" data-flavor="vanilla">Vanilla</button>
@@ -56,7 +90,7 @@
 				</div>
 
 				<div class="btn-toolbar">
-					<div class="btn-group" id="scoopsize">
+					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="scoopsize">
 					<button class="btn" data-scoopsize="treat">Treat</button>
 					<button class="btn" data-scoopsize="small">Small</button>
 					<button class="btn" data-scoopsize="medium">Medium</button>
@@ -122,7 +156,44 @@
 	<script src="js/bootstrap.js"></script>
 
 	<script>
-
+	var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
+	var userLat;
+	var userLong; 
+	
+	
+	var x=document.getElementById("demo");
+	function getLocation()
+	{
+		if (navigator.geolocation) 
+		{
+			navigator.geolocation.getCurrentPosition(showPosition);
+		}
+		else 
+		{
+			x.innerHTML="Geolocation is not supported by this browser.";
+		}
+	}
+	function showPosition(position)
+	{
+		x.innerHTML="Latitude: " + position.coords.latitude + 
+		"<br>Longitude: " + position.coords.longitude;	
+		
+		$.ajax({
+			type: "GET",
+			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
+			success: function(result){
+				$("#notifications").html(result);
+				console.log(result);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
+			}
+		});
+		
+	}
+	
+	
+	
 	$("#flavor button").click(function(event) {
 		switch(event.target.dataset.flavor) {
 			case "chocolate":
@@ -134,8 +205,8 @@
 				var scoopStroke="white";
 				break;
 			case "vanilla":
-				var scoopFill="white";
-				var scoopStroke="black";
+				var scoopFill="#f2ebe1";
+				var scoopStroke="white";
 				break;
 			default:
 				//
@@ -143,6 +214,14 @@
 		$("#scoop").css("fill",scoopFill);
 		$("#scoop").css("stroke",scoopStroke);
 	});
+	
+	$(document).ready(function() {
+		
+		getLocation();
+		
+	});
+	
+	
 	
 	</script>
 
