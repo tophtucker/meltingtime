@@ -12,44 +12,66 @@
 	<link href="css/bootstrap.css" rel="stylesheet">
 
 	<style>
-		body {
-			//
+		html {
+			/*background:#87ba4f;*/
+			background:#4c9d51;
 		}
+		
+		body {
+			background-image:url('img/background.svg');
+			background-size:cover;
+			background-repeat:no-repeat;
+		}
+		
+		#header {
+			margin: 20px 0;
+		} 
+		
+		#footer {
+			position: fixed;
+			bottom: 0;
+		}
+		
+		.popover {
+			width: 600px;
+		}
+		
+		h1 {
+			font-size: 64pt;
+			line-height: 70pt;
+		}
+		
 		#icecream-container {
 			float:right;
 		}
 		#scoop {
-			fill: black;
-			stroke: white;
+			fill: #664422;
+			stroke: none;
 			stroke-width: 2;
 			transition: fill 1s;
-			/*transform-origin: -50% -100%;*/
-			-webkit-transform-origin: 50% 100%;
-			-webkit-transform: scale(.75,.2);
-			transform: scale(.75,.2);
 		}
 		
-		#scoop
+		#scoop.melt
 		{
 			/*
 			animation-name: myfirst;
 			animation-duration: 10s;
 			animation-timing-function: linear;
 			*/
-			-webkit-animation-name: myfirst;
+			-webkit-animation-name: melting;
 			-webkit-animation-duration: 10s;
 			-webkit-animation-timing-function: linear;
 		}
-		@keyframes myfirst 
+		@keyframes melt
 		{
 			0%   {
-				transform: scale(1,1);
+				transform: scale(1,1) translate(0px, 0px);
 			}
 			100% {
-				transform: scale(.75,.2);
+				transform: scale(.75,.2) translate(0px, 5px);
 			}
 		}
-		@-webkit-keyframes myfirst 
+		@-webkit-keyframes melt
 		{
 			0%   {
 				-webkit-transform: scale(1,1) translate(0px, 0px);
@@ -83,35 +105,43 @@
 	<div class="container">
 	
 		<div class="row-fluid">
-
+		
 			<div class="span8">
 			
-				<h1>How long will it take my ice cream to melt?</h1>
-				<p>In Brunswick, Maine, the temperature is 60ºF.</p>
-				<p id="demo">...</p>
-				<p id="notifications">...</p>
+				<h1>Finding you…</h1>
 				
 				<div class="btn-toolbar">
 					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="flavor">
-					<button class="btn" data-flavor="chocolate">Chocolate</button>
-					<button class="btn" data-flavor="coffee">Coffee</button>
-					<button class="btn" data-flavor="vanilla">Vanilla</button>
+					<button class="btn btn-large active" data-flavor="chocolate">Chocolate</button>
+					<button class="btn btn-large" data-flavor="coffee">Coffee</button>
+					<button class="btn btn-large" data-flavor="vanilla">Vanilla</button>
 					</div>
 				</div>
 
 				<div class="btn-toolbar">
 					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="scoopsize">
-					<button class="btn" data-scoopsize="treat">Treat</button>
-					<button class="btn" data-scoopsize="small">Small</button>
-					<button class="btn" data-scoopsize="medium">Medium</button>
-					<button class="btn" data-scoopsize="large">Large</button>
+					<button class="btn btn-large" data-scoopsize="treat">Treat</button>
+					<button class="btn btn-large" data-scoopsize="small">Small</button>
+					<button class="btn btn-large" data-scoopsize="medium">Medium</button>
+					<button class="btn btn-large" data-scoopsize="large">Large</button>
 					</div>
+				</div>
+				
+				<p id="notifications"></p>
+				
+				<div id="data-stats" style="opacity:.4">
+					<p>Location: <span id="data-loc"></span></p>
+					<p>Temperature: <span id="data-temp"></span>ºF</p>
+					<p>Cloud cover: <span id="data-cloud"></span>%</p>
+					<p>Wind: <span id="data-wind"></span> mph</p>
+					<p>Precipitation intensity: <span id="data-precip"></span></p>
+					<p>Precipitation probability: <span id="data-precipprob"></span>%</p>
 				</div>
 			
 			</div>
 			
 			<div class="span4" id="icecream-container">
-				<svg id="icecream-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_2" x="0px" y="0px" width="100%" viewBox="21.276 -4.342 56.448 100" enable-background="new 21.276 -4.342 56.448 100" xml:space="preserve">
+				<svg id="icecream-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_2" x="0px" y="0px" height="100%" viewBox="21.276 -4.342 56.448 100" enable-background="new 21.276 -4.342 56.448 100" xml:space="preserve">
 					<rect x="49.426" y="63.556" transform="matrix(0.4226 0.9063 -0.9063 0.4226 90.9679 -9.1559)" width="6.487" height="6.518"/>
 					<polygon points="58.946,67.468 61.234,59.725 61.05,59.33 55.156,62.078 57.897,67.956 "/>
 					<polygon points="36.185,54.375 38.043,60.665 43.844,57.961 41.103,52.082 "/>
@@ -156,6 +186,15 @@
 			</div>
 		
 		</div>
+		
+		<div id="footer">
+			
+			<p>
+				<button id="data-popover-button" class="btn btn-success" data-title="Data" data-placement="top">Data</button> 
+				<button id="colophon-popover-button" class="btn btn-success" data-title="Colophon" data-placement="top" data-content="Coded by Toph Tucker. Illustrated by Aaron Wolf. Inspired by licking a coffee ice cream cone from the little shop down Anderson Alley in Concord, MA on Friday, June 5, temperature 91ºF.">Colophon</button>
+			</p>
+			
+		</div>
 
 	</div> <!-- /container -->
 
@@ -170,8 +209,77 @@
 	var userLat;
 	var userLong; 
 	
+	//from http://javascript.about.com/library/bldayyear.htm, of all places
+	Date.prototype.getDOY = function() {
+		var onejan = new Date(this.getFullYear(),0,1);
+		return Math.ceil((this - onejan) / 86400000);
+	}
 	
-	var x=document.getElementById("demo");
+	//from http://stackoverflow.com/a/11760121/120290
+	Date.prototype.getJulian = function() {
+		return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
+	}
+	
+	Date.prototype.getSidereal = function(j2kDate, longitude) {
+				
+		// Greenwich mean sidereal time
+		var gmst = 6.697375 + .0657098242 * j2kDate + this.getHours()/24;
+			gmst = gmst % 24;
+		
+		console.log("GMST 1: " + gmst);
+		
+		var gmst2 = 18.697374558 + 24.06570982441908 * j2kDate;
+			gmst2 = gmst2 % 24;
+		console.log("GMST 2: " + gmst2);
+				
+		// Local mean sidereal time
+		var lmst = gmst + longitude / 15;
+			lmst = lmst % 24;
+			lmst = lmst * 15 * (Math.PI/180);
+		
+		return lmst;
+	}
+	
+	function getSolarElevation(latitude, longitude)
+	{
+		
+		// first get ecliptic mean longitude and mean anomaly
+		// adapted from R: http://stackoverflow.com/a/258106/120290
+		// http://en.wikipedia.org/wiki/Position_of_the_Sun
+		// http://en.wikipedia.org/wiki/Solar_zenith_angle
+		
+		var degToRad = Math.PI/180;
+		
+		var today = new Date();
+		var julianDate		= today.getJulian(); // like, 2451545... big. 1=1day.
+		var j2kDate 		= julianDate - 2451545; // epoch: noon, 1 January 2000
+		var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
+		
+		console.log("Julian date: " + julianDate);
+		console.log("J2K date: " + j2kDate);
+		console.log("siderealTime: " + siderealTime);
+		/*
+		var eclipticMeanLongitude = 280.460 + .9856474 * j2kDate;
+		eclipticMeanLongitude = eclipticMeanLongitude % 360;
+		
+		var eclipticMeanAnomaly = 357.528 + .9856003 * j2kDate;
+		eclipticMeanAnomaly = eclipticMeanAnomaly % 360;
+		
+		var eclipticLongitude = eclipticMeanLongitude + 1.915*Math.sin(degToRad*eclipticMeanAnomaly) + 0.020*Math.sin(degToRad*2*eclipticMeanAnomaly);
+		eclipticLongitude = eclipticLongitude % 360;
+		
+		var rightAscension 	= Math.asin(Math.cos(degToRad*-23.44)*Math.tan(degToRad*eclipticLongitude));
+		var declination 	= Math.asin(Math.sin(degToRad*-23.44)*Math.sin(degToRad*eclipticLongitude));
+		
+		var hourAngle = siderealTime - rightAscension;
+		
+		var elevation = Math.asin(Math.sin(declination) * sin(degToRad*latitude) + cos(declination) * Math.cos(degToRad*latitude) * Math.cos(hourAngle));
+		var azimuth = Math.asin(-Math.cos(declination) * sin(hourAngle) / cos(elevation));*/
+		
+		return true;
+	}
+	
+	var x=document.getElementById("data-loc");
 	function getLocation()
 	{
 		if (navigator.geolocation) 
@@ -185,21 +293,39 @@
 	}
 	function showPosition(position)
 	{
-		x.innerHTML="Latitude: " + position.coords.latitude + 
-		"<br>Longitude: " + position.coords.longitude;	
-		
 		console.log(position);
-		
 		userLat = position.coords.latitude;
 		userLong = position.coords.longitude;
 		
+		getSolarElevation(userLat, userLong);
+		
+		x.innerHTML=Math.round(userLat*100)/100 + ", " + Math.round(userLong*100)/100;	
+		
 		$.ajax({
 			type: "GET",
-			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+position.coords.latitude+","+position.coords.longitude,
+			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
 			dataType: 'jsonp',
 			success: function(result){
-				$("#notifications").html(result);
+				
+				var temp = result.currently.temperature;
+				
+				$("#data-temp").html(Math.round(temp));
+				$("#data-cloud").html(result.currently.cloudCover*100);
+				$("#data-wind").html(result.currently.windSpeed);
+				$("#data-precip").html(result.currently.precipIntensity);
+				$("#data-precipprob").html(result.currently.precipProbability*100);
+				
 				console.log(result);
+				
+				var meltCoef = '1000';
+				var flavorCoef = '1';
+				var sizeCoef = '1';
+				var typeCoef = '1';
+				
+				var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
+				var meltTimeDisplay = Math.round(meltTime);
+				$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
+				
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown){
 				$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
@@ -214,15 +340,15 @@
 		switch(event.target.dataset.flavor) {
 			case "chocolate":
 				var scoopFill="#664422";
-				var scoopStroke="white";
+				//var scoopStroke="white";
 				break;
 			case "coffee":
 				var scoopFill="tan";
-				var scoopStroke="white";
+				//var scoopStroke="white";
 				break;
 			case "vanilla":
 				var scoopFill="#f2ebe1";
-				var scoopStroke="white";
+				//var scoopStroke="white";
 				break;
 			default:
 				//
@@ -230,6 +356,10 @@
 		$("#scoop").css("fill",scoopFill);
 		$("#scoop").css("stroke",scoopStroke);
 	});
+	
+	$('#data-popover-button').popover()
+	
+	$('#colophon-popover-button').popover()
 	
 	$(document).ready(function() {
 		
