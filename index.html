@@ -229,21 +229,22 @@
 	
 	Date.prototype.getSidereal = function(j2kDate, longitude) {
 		
-		console.log("Get hours: "+this.getDayFraction());
-		
 		// Greenwich mean sidereal time
-		var gmst = 6.697375 + .0657098242 * j2kDate + this.getDayFraction()/24 + 0.5;
+		// from http://stackoverflow.com/questions/257717/position-of-the-sun-given-time-of-day-and-lat-long
+		var gmst = 6.697375 + .0657098242 * j2kDate; // + this.getDayFraction()/24 + 0.5
 			gmst = gmst % 24;
 		console.log("GMST 1: " + gmst);
-		/*
-		var gmst = 18.697374558 + 24.06570982441908 * (j2kDate + this.getDayFraction()/24 + 0.5);
-			gmst = gmst % 24;
-		console.log("GMST 2: " + gmst);
-		*/
+		
+		// from http://aa.usno.navy.mil/faq/docs/GAST.php; doesn't seem to work?
+		/* var gmst2 = 18.697374558 + 24.06570982441908 * j2kDate; // + this.getDayFraction()/24 + 0.5 // +(4/24)+0.5 //???
+			gmst2 = gmst2 % 24;
+		console.log("GMST 2: " + gmst2); */
+		
 		// Local mean sidereal time
-		var lmst = gmst + longitude / 15;
+		// appears to work with gmst-long even though long was already negative for boston and i thought that was right...
+		var lmst = gmst - (longitude / (360/24)); //converting longitude from degrees (out of 360) to hours (out of 24)
 			lmst = lmst % 24;
-			lmst = lmst * 15 * (Math.PI/180);
+			//lmst = lmst * 15 * (Math.PI/180);
 		
 		console.log("LMST: " + lmst);
 		
@@ -261,15 +262,13 @@
 		var degToRad = Math.PI/180;
 		
 		var today = new Date();
-		var julianDate		= today.getJulian() + today.getDayFraction() + 0.5 + (4/24); // like, 2451545... big. 1=1day.
+		var julianDate		= today.getJulian();
 		var j2kDate 		= julianDate - 2451545; // epoch: noon, 1 January 2000
-		//var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
+		var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
 		
 		console.log("Julian date: " + julianDate);
-		console.log("Julian date 2: " + (today.getTime()/86400000 + 2440587.5));
-		console.log("Julian date 3: " + today.getJulian());
-		//console.log("J2K date: " + j2kDate);
-		//console.log("siderealTime: " + siderealTime);
+		console.log("J2K date: " + j2kDate);
+		console.log("siderealTime: " + siderealTime);
 		/*
 		var eclipticMeanLongitude = 280.460 + .9856474 * j2kDate;
 		eclipticMeanLongitude = eclipticMeanLongitude % 360;
