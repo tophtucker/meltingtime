@@ -215,27 +215,37 @@
 		return Math.ceil((this - onejan) / 86400000);
 	}
 	
-	//from http://stackoverflow.com/a/11760121/120290
 	Date.prototype.getJulian = function() {
-		return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
+		//confer http://stackoverflow.com/questions/11759992/calculating-jdayjulian-day-in-javascript
+		//this commented-out version gives an integer local Julian Date
+		//return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
+		//this returns a UTC Julian Date with fraction:
+		return (this.getTime()/86400000 + 2440587.5);
+	}
+	
+	Date.prototype.getDayFraction = function() {
+		return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
 	}
 	
 	Date.prototype.getSidereal = function(j2kDate, longitude) {
-				
+		
+		console.log("Get hours: "+this.getDayFraction());
+		
 		// Greenwich mean sidereal time
-		var gmst = 6.697375 + .0657098242 * j2kDate + this.getHours()/24;
+		var gmst = 6.697375 + .0657098242 * j2kDate + this.getDayFraction()/24 + 0.5;
 			gmst = gmst % 24;
-		
 		console.log("GMST 1: " + gmst);
-		
-		var gmst2 = 18.697374558 + 24.06570982441908 * j2kDate;
-			gmst2 = gmst2 % 24;
-		console.log("GMST 2: " + gmst2);
-				
+		/*
+		var gmst = 18.697374558 + 24.06570982441908 * (j2kDate + this.getDayFraction()/24 + 0.5);
+			gmst = gmst % 24;
+		console.log("GMST 2: " + gmst);
+		*/
 		// Local mean sidereal time
 		var lmst = gmst + longitude / 15;
 			lmst = lmst % 24;
 			lmst = lmst * 15 * (Math.PI/180);
+		
+		console.log("LMST: " + lmst);
 		
 		return lmst;
 	}
@@ -251,13 +261,15 @@
 		var degToRad = Math.PI/180;
 		
 		var today = new Date();
-		var julianDate		= today.getJulian(); // like, 2451545... big. 1=1day.
+		var julianDate		= today.getJulian() + today.getDayFraction() + 0.5 + (4/24); // like, 2451545... big. 1=1day.
 		var j2kDate 		= julianDate - 2451545; // epoch: noon, 1 January 2000
-		var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
+		//var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
 		
 		console.log("Julian date: " + julianDate);
-		console.log("J2K date: " + j2kDate);
-		console.log("siderealTime: " + siderealTime);
+		console.log("Julian date 2: " + (today.getTime()/86400000 + 2440587.5));
+		console.log("Julian date 3: " + today.getJulian());
+		//console.log("J2K date: " + j2kDate);
+		//console.log("siderealTime: " + siderealTime);
 		/*
 		var eclipticMeanLongitude = 280.460 + .9856474 * j2kDate;
 		eclipticMeanLongitude = eclipticMeanLongitude % 360;
