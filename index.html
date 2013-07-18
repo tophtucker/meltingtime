@@ -242,7 +242,8 @@
 		
 		// Local mean sidereal time
 		// appears to work with gmst-long even though long was already negative for boston and i thought that was right...
-		var lmst = gmst - (longitude / (360/24)); //converting longitude from degrees (out of 360) to hours (out of 24)
+		console.log("Longitude in hours: " + (longitude / (360/24)));
+		var lmst = gmst + (longitude / (360/24)); //converting longitude from degrees (out of 360) to hours (out of 24)
 			lmst = lmst % 24;
 			//lmst = lmst * 15 * (Math.PI/180);
 		
@@ -288,6 +289,15 @@
 		var azimuth = Math.asin(-Math.cos(declination) * sin(hourAngle) / cos(elevation));*/
 		
 		return true;
+	}
+	
+	function getSolarData(latitude, longitude)
+	{
+		// adapted from NOAA calculator http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
+		var today = new Date();
+		var julianDate = today.getJulian();
+		
+		
 	}
 	
 	var x=document.getElementById("data-loc");
