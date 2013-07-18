@@ -1,0 +1,104 @@
+Date.prototype.getDayFraction = function() {
+	return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
+}
+
+Date.prototype.getJulian = function() {
+	//confer http://stackoverflow.com/questions/11759992/calculating-jdayjulian-day-in-javascript
+	//this commented-out version gives an integer local Julian Date
+	//return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
+	//this returns a UTC Julian Date with fraction:
+	return (this.getTime()/86400000 + 2440587.5);
+}
+
+function dayFractionToTimeString(fraction) {
+	var date = new Date(2000,1,1); // use any date as base reference
+	date.setUTCSeconds(fraction * 86400); // add number of seconds in fractional hours
+	return (date.getHours() + ":" + date.getMinutes());
+}
+
+function getSolarData(latitude, longitude)
+{
+	// adapted from NOAA calculator http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
+	var today = new Date();
+	var timeFraction = today.getDayFraction();
+	var timezone = -today.getTimezoneOffset()/60; //js uses odd W-is-+ convention
+	var degToRad = Math.PI/180;
+	var radToDeg = 1/degToRad;
+	
+	/*A*/ 
+	/*B*/ 
+	/*C*/ 
+	/*D*/ 
+	/*E*/ 
+	/*F*/ var julianDay = today.getJulian();
+	/*G*/ var julianCentury = (julianDay-2451545)/36525;
+	/*H*/ 
+	/*I*/ var geomMeanLongSun_deg 		= (280.46646+julianCentury*(36000.76983 + julianCentury*0.0003032)) % 360;
+	/*J*/ var geomMeanAnomalySun_deg 	= 357.52911+julianCentury*(35999.05029 - 0.0001537*julianCentury);
+	/*K*/ var eccentEarthOrbit 			= 0.016708634-julianCentury*(0.000042037+0.0000001267*julianCentury)
+	/*L*/ var sunEqOfCtr 				= Math.sin(degToRad*geomMeanAnomalySun_deg)*(1.914602-julianCentury*(0.004817+0.000014*julianCentury))+Math.sin(degToRad*(2*geomMeanAnomalySun_deg))*(0.019993-0.000101*julianCentury)+Math.sin(degToRad*(3*geomMeanAnomalySun_deg))*0.000289;
+	/*M*/ var sunTrueLong_deg 			= geomMeanLongSun_deg+sunEqOfCtr;
+	/*N*/ var sunTrueAnom_deg			= geomMeanAnomalySun_deg+sunEqOfCtr;
+	/*O*/ var sunRadVector_AUs			= (1.000001018*(1-eccentEarthOrbit*eccentEarthOrbit))/(1+eccentEarthOrbit*Math.cos(degToRad*(sunTrueAnom_deg)));
+	/*P*/ var sunAppLong_deg			= sunTrueLong_deg-0.00569-0.00478*Math.sin(degToRad*(125.04-1934.136*julianCentury));
+	/*Q*/ var meanObliqEcliptic_deg		= 23+(26+((21.448-julianCentury*(46.815+julianCentury*(0.00059-julianCentury*0.001813))))/60)/60;
+	/*R*/ var obliqCorr_deg				= meanObliqEcliptic_deg+0.00256*Math.cos(degToRad*(125.04-1934.136*julianCentury));
+	/*S*/ var sunRtAscen_deg			= radToDeg*(Math.atan2(Math.cos(degToRad*(obliqCorr_deg))*Math.sin(degToRad*(sunAppLong_deg)),Math.cos(degToRad*(sunAppLong_deg))));
+	/*T*/ var sunDeclin_deg				= radToDeg*(Math.asin(Math.sin(degToRad*(obliqCorr_deg))*Math.sin(degToRad*(sunAppLong_deg))));
+	/*U*/ var varY						= Math.tan(degToRad*(obliqCorr_deg/2))*Math.tan(degToRad*(obliqCorr_deg/2));
+	/*V*/ var eqOfTime_min				= 4*radToDeg*(varY*Math.sin(2*degToRad*(geomMeanLongSun_deg))-2*eccentEarthOrbit*Math.sin(degToRad*(geomMeanAnomalySun_deg))+4*eccentEarthOrbit*varY*Math.sin(degToRad*(geomMeanAnomalySun_deg))*Math.cos(2*degToRad*(geomMeanLongSun_deg))-0.5*varY*varY*Math.sin(4*degToRad*(geomMeanLongSun_deg))-1.25*eccentEarthOrbit*eccentEarthOrbit*Math.sin(2*degToRad*(geomMeanAnomalySun_deg)));
+	/*W*/ var HASunrise_deg				= radToDeg*(Math.acos(Math.cos(degToRad*(90.833))/(Math.cos(degToRad*(latitude))*Math.cos(degToRad*(sunDeclin_deg)))-Math.tan(degToRad*(latitude))*Math.tan(degToRad*(sunDeclin_deg))));
+	/*X*/ var solarNoon_LST				= (720-4*longitude-eqOfTime_min+timezone*60)/1440;
+	/*Y*/ var sunriseTime_LST			= solarNoon_LST-HASunrise_deg*4/1440;
+	/*Z*/ var sunsetTime_LST			= solarNoon_LST+HASunrise_deg*4/1440;
+	/*AA*/ var sunlightDuration_min		= 8*HASunrise_deg;
+	/*AB*/ var trueSolarTime_min		= (timeFraction*1440+eqOfTime_min+4*longitude-60*timezone) % 1440;
+	/*AC*/ var hourAngle_deg			= trueSolarTime_min/4<0 ? trueSolarTime_min/4+180 : trueSolarTime_min/4-180;
+	/*AD*/ var solarZenithAngle_deg		= radToDeg*(Math.acos(Math.sin(degToRad*(latitude))*Math.sin(degToRad*(sunDeclin_deg))+Math.cos(degToRad*(latitude))*Math.cos(degToRad*(sunDeclin_deg))*Math.cos(degToRad*(hourAngle_deg))));
+	/*AE*/ var solarElevationAngle_deg	= 90-solarZenithAngle_deg;
+	/*AF*/ var approxAtmosRefrctn_deg	= (solarElevationAngle_deg>85 ? 0 : (solarElevationAngle_deg>5 ? 58.1/Math.tan(degToRad*(solarElevationAngle_deg))-0.07/Math.pow(Math.tan(degToRad*(solarElevationAngle_deg)),3)+0.000086/Math.pow(Math.tan(degToRad*(solarElevationAngle_deg)),5) : (solarElevationAngle_deg>-0.575 ? 1735+solarElevationAngle_deg*(-518.2+solarElevationAngle_deg*(103.4+solarElevationAngle_deg*(-12.79+solarElevationAngle_deg*0.711))) : -20.772/Math.tan(degToRad*(solarElevationAngle_deg)))))/3600;
+	/*AG*/ var solarElevCorrected_deg	= solarElevationAngle_deg+approxAtmosRefrctn_deg;
+	/*AH*/ var solarAzimuth_degCWfromN	= hourAngle_deg>0 ? (radToDeg*(Math.acos(((Math.sin(degToRad*(latitude))*Math.cos(degToRad*(solarZenithAngle_deg)))-Math.sin(degToRad*(sunDeclin_deg)))/(Math.cos(degToRad*(latitude))*Math.sin(degToRad*(solarZenithAngle_deg)))))+180)%360 : (540-radToDeg*(Math.acos(((Math.sin(degToRad*(latitude))*Math.cos(degToRad*(solarZenithAngle_deg)))-Math.sin(degToRad*(sunDeclin_deg)))/(Math.cos(degToRad*(latitude))*Math.sin(degToRad*(solarZenithAngle_deg))))))%360;
+	
+	/*
+	console.log(" julianDay : "+ julianDay );
+	console.log(" julianCentury : "+ julianCentury );
+	console.log(" geomMeanLongSun_deg : "+ geomMeanLongSun_deg );
+	console.log(" geomMeanAnomalySun_deg : "+ geomMeanAnomalySun_deg );
+	console.log(" eccentEarthOrbit : "+ eccentEarthOrbit );
+	console.log(" sunEqOfCtr : "+ sunEqOfCtr );
+	console.log(" sunTrueLong_deg : "+ sunTrueLong_deg );
+	console.log(" sunTrueAnom_deg: "+ sunTrueAnom_deg);
+	console.log(" sunRadVector_AUs: "+ sunRadVector_AUs);
+	console.log(" sunAppLong_deg: "+ sunAppLong_deg);
+	console.log(" meanObliqEcliptic_deg: "+ meanObliqEcliptic_deg);
+	console.log(" obliqCorr_deg: "+ obliqCorr_deg);
+	console.log(" sunRtAscen_deg: "+ sunRtAscen_deg);
+	console.log(" sunDeclin_deg: "+ sunDeclin_deg);
+	console.log(" varY: "+ varY);
+	console.log(" eqOfTime_min: "+ eqOfTime_min);
+	console.log(" HASunrise_deg: "+ HASunrise_deg);
+	console.log(" solarNoon_LST: "+ solarNoon_LST);
+	console.log(" sunriseTime_LST: "+ sunriseTime_LST);
+	console.log(" sunsetTime_LST: "+ sunsetTime_LST);
+	console.log(" sunlightDuration_min: "+ sunlightDuration_min);
+	console.log(" trueSolarTime_min: "+ trueSolarTime_min);
+	console.log(" hourAngle_deg: "+ hourAngle_deg);
+	console.log(" solarZenithAngle_deg: "+ solarZenithAngle_deg);
+	console.log(" solarElevationAngle_deg: "+ solarElevationAngle_deg);
+	console.log(" approxAtmosRefrctn_deg: "+ approxAtmosRefrctn_deg);
+	console.log(" solarElevCorrected_deg: "+ solarElevCorrected_deg);
+	console.log(" solarAzimuth_degCWfromN: "+ solarAzimuth_degCWfromN);
+	*/
+	
+	var solarData = new Object();
+	solarData.julianDay = julianDay;
+	solarData.sunriseTime = sunriseTime_LST;
+	solarData.sunsetTime = sunsetTime_LST;
+	solarData.solarTime = trueSolarTime_min;
+	solarData.solarZenith = solarZenithAngle_deg;
+	solarData.solarElevation = solarElevCorrected_deg;
+	solarData.solarAzimuth = solarAzimuth_degCWfromN;
+	
+	return solarData;
+}

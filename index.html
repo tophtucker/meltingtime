@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +33,7 @@
 		
 		.popover {
 			width: 600px;
+			z-index: 99; /*UGH NOT WORKING, STILL UNDER BOOTSTRAP BUTTON*/
 		}
 		
 		h1 {
@@ -129,13 +129,19 @@
 				
 				<p id="notifications"></p>
 				
-				<div id="data-stats" style="opacity:.4">
-					<p>Location: <span id="data-loc"></span></p>
-					<p>Temperature: <span id="data-temp"></span>ºF</p>
-					<p>Cloud cover: <span id="data-cloud"></span>%</p>
-					<p>Wind: <span id="data-wind"></span> mph</p>
-					<p>Precipitation intensity: <span id="data-precip"></span></p>
-					<p>Precipitation probability: <span id="data-precipprob"></span>%</p>
+				<div id="data-stats" style="display:none;">
+					<p><strong>Weather</strong>
+					<br/>Coordinates: <span id="data-coordinates">?</span>
+					<br/>Temperature: <span id="data-temp">?</span>ºF
+					<br/>Cloud cover: <span id="data-cloud">?</span>%
+					<br/>Wind: <span id="data-wind">?</span> mph
+					<br/>Precipitation intensity: <span id="data-precip">?</span>
+					<br/>Precipitation probability: <span id="data-precipprob">?</span>%</p>
+					<p><strong>Solar position</strong>
+					<br/>Sunrise time: <span id="data-sunrisetime">?</span>
+					<br/>Sunset time: <span id="data-sunsettime">?</span>
+					<br/>Solar elevation: <span id="data-solarelevation">?</span>º above horizon
+					<br/>Solar azimuth: <span id="data-solarazimuth">?</span>º CW from North</p>
 				</div>
 			
 			</div>
@@ -190,8 +196,8 @@
 		<div id="footer">
 			
 			<p>
-				<button id="data-popover-button" class="btn btn-success" data-title="Data" data-placement="top">Data</button> 
 				<button id="colophon-popover-button" class="btn btn-success" data-title="Colophon" data-placement="top" data-content="Coded by Toph Tucker. Illustrated by Aaron Wolf. Inspired by licking a coffee ice cream cone from the little shop down Anderson Alley in Concord, MA on Friday, June 5, temperature 91ºF.">Colophon</button>
+				<button id="data-popover-button" class="btn btn-success disabled" data-title="Data" data-placement="top">Data</button> 
 			</p>
 			
 		</div>
@@ -203,104 +209,13 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/meltingtime.js"></script>
 
 	<script>
 	var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
 	var userLat;
 	var userLong; 
-	
-	//from http://javascript.about.com/library/bldayyear.htm, of all places
-	Date.prototype.getDOY = function() {
-		var onejan = new Date(this.getFullYear(),0,1);
-		return Math.ceil((this - onejan) / 86400000);
-	}
-	
-	Date.prototype.getJulian = function() {
-		//confer http://stackoverflow.com/questions/11759992/calculating-jdayjulian-day-in-javascript
-		//this commented-out version gives an integer local Julian Date
-		//return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
-		//this returns a UTC Julian Date with fraction:
-		return (this.getTime()/86400000 + 2440587.5);
-	}
-	
-	Date.prototype.getDayFraction = function() {
-		return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
-	}
-	
-	Date.prototype.getSidereal = function(j2kDate, longitude) {
 		
-		// Greenwich mean sidereal time
-		// from http://stackoverflow.com/questions/257717/position-of-the-sun-given-time-of-day-and-lat-long
-		var gmst = 6.697375 + .0657098242 * j2kDate; // + this.getDayFraction()/24 + 0.5
-			gmst = gmst % 24;
-		console.log("GMST 1: " + gmst);
-		
-		// from http://aa.usno.navy.mil/faq/docs/GAST.php; doesn't seem to work?
-		/* var gmst2 = 18.697374558 + 24.06570982441908 * j2kDate; // + this.getDayFraction()/24 + 0.5 // +(4/24)+0.5 //???
-			gmst2 = gmst2 % 24;
-		console.log("GMST 2: " + gmst2); */
-		
-		// Local mean sidereal time
-		// appears to work with gmst-long even though long was already negative for boston and i thought that was right...
-		console.log("Longitude in hours: " + (longitude / (360/24)));
-		var lmst = gmst + (longitude / (360/24)); //converting longitude from degrees (out of 360) to hours (out of 24)
-			lmst = lmst % 24;
-			//lmst = lmst * 15 * (Math.PI/180);
-		
-		console.log("LMST: " + lmst);
-		
-		return lmst;
-	}
-	
-	function getSolarElevation(latitude, longitude)
-	{
-		
-		// first get ecliptic mean longitude and mean anomaly
-		// adapted from R: http://stackoverflow.com/a/258106/120290
-		// http://en.wikipedia.org/wiki/Position_of_the_Sun
-		// http://en.wikipedia.org/wiki/Solar_zenith_angle
-		
-		var degToRad = Math.PI/180;
-		
-		var today = new Date();
-		var julianDate		= today.getJulian();
-		var j2kDate 		= julianDate - 2451545; // epoch: noon, 1 January 2000
-		var siderealTime	= today.getSidereal(j2kDate, longitude); // local mean sidereal time
-		
-		console.log("Julian date: " + julianDate);
-		console.log("J2K date: " + j2kDate);
-		console.log("siderealTime: " + siderealTime);
-		/*
-		var eclipticMeanLongitude = 280.460 + .9856474 * j2kDate;
-		eclipticMeanLongitude = eclipticMeanLongitude % 360;
-		
-		var eclipticMeanAnomaly = 357.528 + .9856003 * j2kDate;
-		eclipticMeanAnomaly = eclipticMeanAnomaly % 360;
-		
-		var eclipticLongitude = eclipticMeanLongitude + 1.915*Math.sin(degToRad*eclipticMeanAnomaly) + 0.020*Math.sin(degToRad*2*eclipticMeanAnomaly);
-		eclipticLongitude = eclipticLongitude % 360;
-		
-		var rightAscension 	= Math.asin(Math.cos(degToRad*-23.44)*Math.tan(degToRad*eclipticLongitude));
-		var declination 	= Math.asin(Math.sin(degToRad*-23.44)*Math.sin(degToRad*eclipticLongitude));
-		
-		var hourAngle = siderealTime - rightAscension;
-		
-		var elevation = Math.asin(Math.sin(declination) * sin(degToRad*latitude) + cos(declination) * Math.cos(degToRad*latitude) * Math.cos(hourAngle));
-		var azimuth = Math.asin(-Math.cos(declination) * sin(hourAngle) / cos(elevation));*/
-		
-		return true;
-	}
-	
-	function getSolarData(latitude, longitude)
-	{
-		// adapted from NOAA calculator http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
-		var today = new Date();
-		var julianDate = today.getJulian();
-		
-		
-	}
-	
-	var x=document.getElementById("data-loc");
 	function getLocation()
 	{
 		if (navigator.geolocation) 
@@ -309,7 +224,9 @@
 		}
 		else 
 		{
-			x.innerHTML="Geolocation is not supported by this browser.";
+			//this is not how this error should be handled...
+			//in fact, it's downright kafka-esque, since it can never show.
+			$("#data-coordinates").html("Geolocation is not supported by this browser.");
 		}
 	}
 	function showPosition(position)
@@ -317,10 +234,14 @@
 		console.log(position);
 		userLat = position.coords.latitude;
 		userLong = position.coords.longitude;
+		$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
 		
-		getSolarElevation(userLat, userLong);
-		
-		x.innerHTML=Math.round(userLat*100)/100 + ", " + Math.round(userLong*100)/100;	
+		var solarData = getSolarData(userLat, userLong);
+		console.log(solarData);
+		$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
+		$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
+		$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
+		$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
 		
 		$.ajax({
 			type: "GET",
@@ -338,6 +259,12 @@
 				
 				console.log(result);
 				
+				$('#data-popover-button').popover({
+					'content':$("#data-stats").html(),
+					'html':true
+				});
+				$("#data-popover-button").removeClass("disabled");
+				
 				var meltCoef = '1000';
 				var flavorCoef = '1';
 				var sizeCoef = '1';
@@ -354,8 +281,6 @@
 		});
 		
 	}
-	
-	
 	
 	$("#flavor button").click(function(event) {
 		switch(event.target.dataset.flavor) {
@@ -377,18 +302,14 @@
 		$("#scoop").css("fill",scoopFill);
 		$("#scoop").css("stroke",scoopStroke);
 	});
-	
-	$('#data-popover-button').popover()
-	
-	$('#colophon-popover-button').popover()
-	
+		
 	$(document).ready(function() {
+			
+		$('#colophon-popover-button').popover();
 		
 		getLocation();
 		
 	});
-	
-	
 	
 	</script>
 
