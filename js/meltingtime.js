@@ -102,3 +102,51 @@ function getSolarData(latitude, longitude)
 	
 	return solarData;
 }
+
+function getSolarCanvasPosition(solarData) {
+	
+	//get the current state of affairs
+	//preferably read straight off the svg
+	var sunOriginCX = 582.226;
+	var sunOriginCY = 313.266;
+	var sunOriginR = 97.631;
+	
+	//calibrate canvas
+	var azi0 = 0;
+	var azi360 = azi0 + winWidth;
+	var ele0 = winHeight/2;
+	var ele90 = 0;
+	var eleN90 = winHeight;
+	
+	//map spherical azimuth and elevation to rectangular canvas
+	var solarAziRect = azi0 + (solarData.solarAzimuth/360)*azi360; //mod azi360?
+	var solarEleRect = solarData.solarElevation > 0 ? (ele0 - (solarData.solarElevation/90)*ele90) : (ele0 + (solarData.solarElevation/90)*eleN90);
+	
+	//get position relative to origin (to facilitate relative translation)
+	var translateX = solarAziRect-sunOriginCX;
+	var translateY = solarEleRect-sunOriginCY;	
+	
+	var solarDataRect = new Object();
+	solarDataRect.azimuth = solarAziRect;
+	solarDataRect.elevation = solarEleRect;
+	solarDataRect.translateX = translateX;
+	solarDataRect.translateY = translateY;
+	
+	return solarDataRect;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

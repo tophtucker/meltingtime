@@ -17,9 +17,9 @@
 		}
 		
 		body {
-			background-image:url('img/background.svg');
+			/*background-image:url('img/icecream-barn-cow-fence-reflected.svg');
 			background-size:cover;
-			background-repeat:no-repeat;
+			background-repeat:no-repeat;*/
 		}
 		
 		#header {
@@ -36,13 +36,31 @@
 			z-index: 99; /*UGH NOT WORKING, STILL UNDER BOOTSTRAP BUTTON*/
 		}
 		
+		#headertext {
+			position:relative;
+		}
+		
 		h1 {
 			font-size: 64pt;
 			line-height: 70pt;
+			z-index:99;
+		}
+		
+		#background {
+			position:absolute;
+			width:100%;
+			height:100%;
+			z-index:0;
+		}
+				
+		#container {
+			position: absolute;
+			z-index: 99;
 		}
 		
 		#icecream-container {
 			float:right;
+			position:relative;
 		}
 		#scoop {
 			fill: #664422;
@@ -102,13 +120,15 @@
 
 <body>
 
+	<div id="background"></div> <!-- loaded by ajax -->
+
 	<div class="container">
 	
 		<div class="row-fluid">
 		
 			<div class="span8">
 			
-				<h1>Finding you…</h1>
+				<div id="headertext"><h1>Finding you…</h1></div>
 				
 				<div class="btn-toolbar">
 					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="flavor">
@@ -146,50 +166,7 @@
 			
 			</div>
 			
-			<div class="span4" id="icecream-container">
-				<svg id="icecream-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" id="Layer_2" x="0px" y="0px" height="100%" viewBox="21.276 -4.342 56.448 100" enable-background="new 21.276 -4.342 56.448 100" xml:space="preserve">
-					<rect x="49.426" y="63.556" transform="matrix(0.4226 0.9063 -0.9063 0.4226 90.9679 -9.1559)" width="6.487" height="6.518"/>
-					<polygon points="58.946,67.468 61.234,59.725 61.05,59.33 55.156,62.078 57.897,67.956 "/>
-					<polygon points="36.185,54.375 38.043,60.665 43.844,57.961 41.103,52.082 "/>
-					<polygon points="40.645,68.845 40.483,68.921 42.341,75.21 43.385,74.723 "/>
-					<rect x="42.622" y="66.737" transform="matrix(0.4227 0.9063 -0.9063 0.4227 89.91 -1.1597)" width="6.486" height="6.503"/>
-					<rect x="53.503" y="36.832" transform="matrix(-0.4226 -0.9063 0.9063 -0.4226 44.4204 108.4666)" width="6.519" height="6.503"/>
-					<polygon points="61.532,58.005 61.776,57.89 64.24,49.55 58.777,52.096 "/>
-					<rect x="46.714" y="39.993" transform="matrix(-0.9063 0.4227 -0.4227 -0.9063 113.5303 61.3331)" width="6.503" height="6.519"/>
-					<rect x="39.902" y="43.166" transform="matrix(-0.4226 -0.9063 0.9063 -0.4226 19.3251 105.1619)" width="6.519" height="6.519"/>
-					<rect x="56.689" y="43.629" transform="matrix(-0.4226 -0.9063 0.9063 -0.4226 42.7729 121.0088)" width="6.486" height="6.503"/>
-					<polygon points="58.319,68.86 58.451,69.143 58.569,68.743 "/>
-					<polygon points="40.197,67.953 40.223,67.941 40.143,67.769 "/>
-					<rect x="39.437" y="59.94" transform="matrix(0.4227 0.9063 -0.9063 0.4227 81.9202 -2.2115)" width="6.518" height="6.503"/>
-					<rect x="43.087" y="49.962" transform="matrix(-0.4226 -0.9063 0.9063 -0.4226 17.6737 117.7036)" width="6.487" height="6.519"/>
-					<path d="M49.802,32.848l2.215,4.751l5.894-2.748l-1.227-2.63c-0.69-0.278-1.346-0.644-1.95-1.095  C53.309,32.189,51.604,32.788,49.802,32.848z"/>
-					<rect x="49.892" y="46.797" transform="matrix(-0.4225 -0.9063 0.9063 -0.4225 30.2246 119.3553)" width="6.486" height="6.503"/>
-					<rect x="46.241" y="56.759" transform="matrix(0.4226 0.9063 -0.9063 0.4226 82.978 -10.2077)" width="6.519" height="6.52"/>
-					<rect x="53.045" y="53.596" transform="matrix(0.4226 0.9063 -0.9063 0.4226 84.031 -18.2062)" width="6.519" height="6.502"/>
-					<polygon points="64.87,47.418 67.069,39.973 62.411,42.145 "/>
-					<path d="M49.5,95.658c0.664,0,1.246-0.436,1.435-1.072l0.664-2.249l-1.453-3.115l-3.221,1.502l1.141,3.862  C48.254,95.222,48.836,95.658,49.5,95.658z"/>
-					<polygon points="46.983,82.439 44.781,83.467 46.639,89.757 49.725,88.318 "/>
-					<polygon points="31.888,39.829 33.746,46.119 37.504,44.366 34.764,38.488 "/>
-					<rect x="36.732" y="36.385" transform="matrix(-0.9063 0.4226 -0.4226 -0.9063 92.9837 58.6434)" width="6.519" height="6.486"/>
-					<path d="M31.602,38.862l2.74-1.278l-2.5-5.361c-0.652,0.262-1.336,0.446-2.041,0.544L31.602,38.862z"/>
-					<path d="M41.154,34.408l-0.772-1.657c-0.442,0.067-0.892,0.103-1.348,0.103c-1.915,0-3.73-0.606-5.234-1.729  c-0.336,0.251-0.69,0.473-1.056,0.671l2.502,5.366L41.154,34.408z"/>
-					<polygon points="54.809,81.473 53.78,79.269 47.887,82.017 50.628,87.896 53.275,86.662 "/>
-					<path d="M41.382,32.537l0.676,1.449l3.961-1.847c-0.618-0.267-1.206-0.606-1.752-1.014C43.396,31.776,42.42,32.251,41.382,32.537z"/>
-					<path d="M68.08,36.554l1.119-3.788c-0.939-0.131-1.841-0.413-2.679-0.831l-0.488,0.228L68.08,36.554z"/>
-					<polygon points="51.05,88.8 52.025,90.893 52.898,87.937 "/>
-					<polygon points="56.105,77.085 58.024,70.588 57.416,69.281 51.508,72.037 54.263,77.944 "/>
-					<polygon points="55.728,78.361 54.684,78.847 55.235,80.029 "/>
-					<rect x="45.776" y="73.534" transform="matrix(0.4228 0.9062 -0.9062 0.4228 97.8895 -0.1149)" width="6.518" height="6.502"/>
-					<path d="M45.22,40.768l5.893-2.748l-2.427-5.205c-0.44-0.04-0.874-0.111-1.297-0.215l-4.91,2.29L45.22,40.768z"/>
-					<polygon points="43.807,75.628 42.627,76.177 44.495,82.499 46.562,81.535 "/>
-					<path d="M57.973,32.627l0.841,1.803l5.894-2.748l-0.076-0.164c-1.383,0.871-2.984,1.337-4.663,1.337  C59.286,32.854,58.619,32.776,57.973,32.627z"/>
-					<polygon points="34.032,47.086 35.899,53.408 40.681,51.178 37.926,45.27 "/>
-					<polygon points="59.235,35.333 61.99,41.242 67.446,38.698 67.653,37.999 65.129,32.585 "/>
-					<g id="scoop">
-						<path d="M73.323,17.376C72.209,5.197,61.969-4.342,49.5-4.342S26.792,5.197,25.677,17.376c-2.589,1.119-4.401,3.694-4.401,6.693   c0,4.026,3.264,7.29,7.29,7.29c2.054,0,3.909-0.851,5.233-2.218c1.325,1.367,3.18,2.218,5.234,2.218s3.909-0.851,5.233-2.218   c1.325,1.367,3.18,2.218,5.234,2.218s3.909-0.851,5.233-2.218c1.325,1.367,3.18,2.218,5.234,2.218c2.054,0,3.908-0.851,5.233-2.218   c1.325,1.367,3.18,2.218,5.233,2.218c4.026,0,7.29-3.263,7.29-7.29C77.725,21.07,75.912,18.494,73.323,17.376z"/>
-					</g>
-				</svg>
-			</div>
+			<div class="span4" id="icecream-container"></div> <!-- loaded by ajax -->
 		
 		</div>
 		
@@ -203,7 +180,7 @@
 		</div>
 
 	</div> <!-- /container -->
-
+	
 	<!-- Le javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -242,6 +219,8 @@
 		$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
 		$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
 		$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
+		
+		var solarDataRect = getSolarCanvasPosition(solarData);
 		
 		$.ajax({
 			type: "GET",
@@ -300,15 +279,42 @@
 				//
 		}		  
 		$("#scoop").css("fill",scoopFill);
-		$("#scoop").css("stroke",scoopStroke);
+		//$("#scoop").css("stroke",scoopStroke);
 	});
 		
 	$(document).ready(function() {
-			
+		
+		// activate colophon bootstrap popover
 		$('#colophon-popover-button').popover();
 		
+		// geolocate
 		getLocation();
 		
+		// load background svg
+		$("#background").load("img/background.svg", function() {
+			
+			//once it's loaded, scale background to fit window
+			//background native is 1008px x 648px
+			var bgRatio = 1008/648;
+			var windowRatio = window.innerWidth/window.innerHeight;
+			var winWidth = window.innerWidth;
+			var winHeight = window.innerHeight;
+			if(bgRatio < windowRatio) {
+				$("#farmbackground").attr("width",window.innerWidth+"px");
+				$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+			}
+			else
+			{
+				//#TODO: fill vertically!
+				$("#farmbackground").attr("width",window.innerWidth+"px");
+				$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+			}
+			
+		});
+		
+		//load ice cream cone svg
+		$("#icecream-container").load("img/icecream.svg");
+				
 	});
 	
 	</script>
