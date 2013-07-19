@@ -26,8 +26,9 @@ function showPosition(position)
 	console.log(solarData);
 	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
 	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
-	$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
+	$("#data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
 	$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
+	$("#data-solarelevation-abovebelow").html(solarData.solarElevation>0 ? "above" : "below");
 	
 	var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
 	
@@ -45,8 +46,12 @@ function showPosition(position)
 			$("#data-precip").html(result.currently.precipIntensity);
 			$("#data-precipprob").html(result.currently.precipProbability*100);
 			
-			if(result.currently.cloudCover > 0.1) $("#Right_Cloud").css("opacity","1");
-			if(result.currently.cloudCover > 0.3) $("#Left_Cloud").css("opacity","1");
+			// right cloud shows when cloud cover >= 10%
+			// left cloud shows when cloud cover >= 30%
+			var rightCloudOpacity = (result.currently.cloudCover >= 0.1 ? 1 : 0);
+			var leftCloudOpacity = (result.currently.cloudCover >= 0.3 ? 1 : 0);
+			$("#Right_Cloud").css("opacity",rightCloudOpacity);
+			$("#Left_Cloud").css("opacity",leftCloudOpacity);
 			
 			console.log(result);
 			
