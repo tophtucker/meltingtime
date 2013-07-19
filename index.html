@@ -2,116 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Melting time</title>
+	<title>How long will it take my ice cream to melt?</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-
-	<!-- Le styles -->
+	<meta name="description" content="How long will it take your ice cream to melt?">
+	<meta name="author" content="Toph Tucker">
+	
+	<!-- Flavoring -->
 	<link href="css/bootstrap.css" rel="stylesheet">
-
-	<style>
-		html {
-			/*background:#87ba4f;*/
-			background:#4c9d51;
-		}
-		
-		body {
-			/*background-image:url('img/icecream-barn-cow-fence-reflected.svg');
-			background-size:cover;
-			background-repeat:no-repeat;*/
-		}
-		
-		#header {
-			margin: 20px 0;
-		} 
-		
-		#footer {
-			position: fixed;
-			bottom: 0;
-		}
-		
-		.popover {
-			width: 600px;
-			z-index: 99; /*UGH NOT WORKING, STILL UNDER BOOTSTRAP BUTTON*/
-		}
-		
-		#headertext {
-			position:relative;
-		}
-		
-		h1 {
-			font-size: 64pt;
-			line-height: 70pt;
-			z-index:99;
-		}
-		
-		#background {
-			position:absolute;
-			width:100%;
-			height:100%;
-			z-index:0;
-		}
-		#Left_Cloud, #Right_Cloud {
-			opacity:0;
-			transition: opacity 5s;
-		}
-		#Sun {
-			transition: -webkit-transform 5s;
-			transition: transform 5s;
-		}
-		.cowspot {
-			transition: fill 10s;
-		}
-				
-		#container {
-			position: absolute;
-			z-index: 99;
-		}
-		
-		#icecream-container {
-			float:right;
-			position:relative;
-		}
-		#scoop {
-			fill: #664422;
-			stroke: none;
-			stroke-width: 2;
-			transition: fill 1s;
-		}
-		
-		#scoop.melt
-		{
-			/*
-			animation-name: myfirst;
-			animation-duration: 10s;
-			animation-timing-function: linear;
-			*/
-			-webkit-animation-name: melting;
-			-webkit-animation-duration: 10s;
-			-webkit-animation-timing-function: linear;
-		}
-		@keyframes melt
-		{
-			0%   {
-				transform: scale(1,1) translate(0px, 0px);
-			}
-			100% {
-				transform: scale(.75,.2) translate(0px, 5px);
-			}
-		}
-		@-webkit-keyframes melt
-		{
-			0%   {
-				-webkit-transform: scale(1,1) translate(0px, 0px);
-			}
-			100% {
-				-webkit-transform: scale(.75,.2) translate(0px, 5px);
-			}
-		}
-		
-		
-	</style>
+	<link href="css/style.css" rel="stylesheet">
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -171,7 +69,7 @@
 					<p><strong>Solar position</strong>
 					<br/>Sunrise time: <span id="data-sunrisetime">?</span>
 					<br/>Sunset time: <span id="data-sunsettime">?</span>
-					<br/>Solar elevation: <span id="data-solarelevation">?</span>º above horizon
+					<br/>Solar elevation: <span id="data-solarelevation">?</span>º <span id="data-solarelevation-abovebelow">above</span> horizon
 					<br/>Solar azimuth: <span id="data-solarazimuth">?</span>º CW from North</p>
 				</div>
 			
@@ -192,148 +90,10 @@
 
 	</div> <!-- /container -->
 	
-	<!-- Le javascript
-	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- Emulsifiers -->
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/meltingtime.js"></script>
-
-	<script>
-	var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
-	var userLat;
-	var userLong; 
-		
-	function getLocation()
-	{
-		if (navigator.geolocation) 
-		{
-			navigator.geolocation.getCurrentPosition(showPosition);
-		}
-		else 
-		{
-			//this is not how this error should be handled...
-			//in fact, it's downright kafka-esque, since it can never show.
-			$("#data-coordinates").html("Geolocation is not supported by this browser.");
-		}
-	}
-	function showPosition(position)
-	{
-		console.log(position);
-		userLat = position.coords.latitude;
-		userLong = position.coords.longitude;
-		$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
-		
-		var solarData = getSolarData(userLat, userLong);
-		console.log(solarData);
-		$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
-		$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
-		$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
-		$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
-		
-		var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
-		
-		$.ajax({
-			type: "GET",
-			url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
-			dataType: 'jsonp',
-			success: function(result){
-				
-				var temp = result.currently.temperature;
-				
-				$("#data-temp").html(Math.round(temp));
-				$("#data-cloud").html(result.currently.cloudCover*100);
-				$("#data-wind").html(result.currently.windSpeed);
-				$("#data-precip").html(result.currently.precipIntensity);
-				$("#data-precipprob").html(result.currently.precipProbability*100);
-				
-				if(result.currently.cloudCover > 0.1) $("#Right_Cloud").css("opacity","1");
-				if(result.currently.cloudCover > 0.3) $("#Left_Cloud").css("opacity","1");
-				
-				console.log(result);
-				
-				$('#data-popover-button').popover({
-					'content':$("#data-stats").html(),
-					'html':true
-				});
-				$("#data-popover-button").removeClass("disabled");
-				
-				var meltCoef = '1000';
-				var flavorCoef = '1';
-				var sizeCoef = '1';
-				var typeCoef = '1';
-				
-				var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
-				var meltTimeDisplay = Math.round(meltTime);
-				$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
-				
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown){
-				$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
-			}
-		});
-		
-	}
-	
-	$("#flavor button").click(function(event) {
-		switch(event.target.dataset.flavor) {
-			case "chocolate":
-				var scoopFill="#664422";
-				//var scoopStroke="white";
-				break;
-			case "coffee":
-				var scoopFill="tan";
-				//var scoopStroke="white";
-				break;
-			case "vanilla":
-				var scoopFill="#f2ebe1";
-				//var scoopStroke="white";
-				break;
-			default:
-				//
-		}		  
-		$("#scoop, .cowspot").css("fill",scoopFill);
-		//$("#scoop").css("stroke",scoopStroke);
-	});
-		
-	$(document).ready(function() {
-		
-		// activate colophon bootstrap popover
-		$('#colophon-popover-button').popover();
-		
-		// geolocate
-		getLocation();
-		//updates all data every 5 minutes...or should. #TODO: test! 
-		updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
-		
-		// load background svg
-		$("#background").load("img/background.svg", function() {
-			
-			//once it's loaded, scale background to fit window
-			//background native is 1008px x 648px
-			var bgRatio = 1008/648;
-			var windowRatio = window.innerWidth/window.innerHeight;
-			var winWidth = window.innerWidth;
-			var winHeight = window.innerHeight;
-			if(bgRatio < windowRatio) {
-				$("#farmbackground").attr("width",window.innerWidth+"px");
-				$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-			}
-			else
-			{
-				//#TODO: fill vertically!
-				$("#farmbackground").attr("width",window.innerWidth+"px");
-				$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-			}
-			
-		});
-		
-		//load ice cream cone svg
-		$("#icecream-container").load("img/icecream.svg");
-				
-	});
-	
-	</script>
 
 </body>
 </html>

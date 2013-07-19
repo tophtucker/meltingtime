@@ -1,3 +1,136 @@
+var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
+var userLat;
+var userLong; 
+	
+function getLocation()
+{
+	if (navigator.geolocation) 
+	{
+		navigator.geolocation.getCurrentPosition(showPosition);
+	}
+	else 
+	{
+		//this is not how this error should be handled...
+		//in fact, it's downright kafka-esque, since it can never show.
+		$("#data-coordinates").html("Geolocation is not supported by this browser.");
+	}
+}
+function showPosition(position)
+{
+	console.log(position);
+	userLat = position.coords.latitude;
+	userLong = position.coords.longitude;
+	$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+	
+	var solarData = getSolarData(userLat, userLong);
+	console.log(solarData);
+	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
+	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
+	$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
+	$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
+	
+	var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
+	
+	$.ajax({
+		type: "GET",
+		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
+		dataType: 'jsonp',
+		success: function(result){
+			
+			var temp = result.currently.temperature;
+			
+			$("#data-temp").html(Math.round(temp));
+			$("#data-cloud").html(result.currently.cloudCover*100);
+			$("#data-wind").html(result.currently.windSpeed);
+			$("#data-precip").html(result.currently.precipIntensity);
+			$("#data-precipprob").html(result.currently.precipProbability*100);
+			
+			if(result.currently.cloudCover > 0.1) $("#Right_Cloud").css("opacity","1");
+			if(result.currently.cloudCover > 0.3) $("#Left_Cloud").css("opacity","1");
+			
+			console.log(result);
+			
+			$('#data-popover-button').popover({
+				'content':$("#data-stats").html(),
+				'html':true
+			});
+			$("#data-popover-button").removeClass("disabled");
+			
+			var meltCoef = '1000';
+			var flavorCoef = '1';
+			var sizeCoef = '1';
+			var typeCoef = '1';
+			
+			var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
+			var meltTimeDisplay = Math.round(meltTime);
+			$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
+			
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown){
+			$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
+		}
+	});
+	
+}
+
+$("#flavor button").click(function(event) {
+	switch(event.target.dataset.flavor) {
+		case "chocolate":
+			var scoopFill="#664422";
+			//var scoopStroke="white";
+			break;
+		case "coffee":
+			var scoopFill="tan";
+			//var scoopStroke="white";
+			break;
+		case "vanilla":
+			var scoopFill="#f2ebe1";
+			//var scoopStroke="white";
+			break;
+		default:
+			//
+	}		  
+	$("#scoop, .cowspot").css("fill",scoopFill);
+	//$("#scoop").css("stroke",scoopStroke);
+});
+	
+$(document).ready(function() {
+	
+	// activate colophon bootstrap popover
+	$('#colophon-popover-button').popover();
+	
+	// geolocate
+	getLocation();
+	//updates all data every 5 minutes...or should. #TODO: test! 
+	updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
+	
+	// load background svg
+	$("#background").load("img/background.svg", function() {
+		
+		//once it's loaded, scale background to fit window
+		//background native is 1008px x 648px
+		var bgRatio = 1008/648;
+		var windowRatio = window.innerWidth/window.innerHeight;
+		var winWidth = window.innerWidth;
+		var winHeight = window.innerHeight;
+		if(bgRatio < windowRatio) {
+			$("#farmbackground").attr("width",window.innerWidth+"px");
+			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+		}
+		else
+		{
+			//#TODO: fill vertically!
+			$("#farmbackground").attr("width",window.innerWidth+"px");
+			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+		}
+		
+	});
+	
+	//load ice cream cone svg
+	$("#icecream-container").load("img/icecream.svg");
+			
+});
+
 Date.prototype.getDayFraction = function() {
 	return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
 }
@@ -107,6 +240,7 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	
 	//get the current state of affairs
 	//preferably read straight off the svg
+	//these are native pixel versions
 	var sunOriginCX = 582.226;
 	var sunOriginCY = 313.266;
 	var sunOriginR = 97.631;
