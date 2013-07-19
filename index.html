@@ -52,6 +52,17 @@
 			height:100%;
 			z-index:0;
 		}
+		#Left_Cloud, #Right_Cloud {
+			opacity:0;
+			transition: opacity 5s;
+		}
+		#Sun {
+			transition: -webkit-transform 5s;
+			transition: transform 5s;
+		}
+		.cowspot {
+			transition: fill 10s;
+		}
 				
 		#container {
 			position: absolute;
@@ -220,7 +231,7 @@
 		$("#data-solarelevation").html(Math.round(solarData.solarElevation*10)/10);
 		$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
 		
-		var solarDataRect = getSolarCanvasPosition(solarData);
+		var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
 		
 		$.ajax({
 			type: "GET",
@@ -235,6 +246,9 @@
 				$("#data-wind").html(result.currently.windSpeed);
 				$("#data-precip").html(result.currently.precipIntensity);
 				$("#data-precipprob").html(result.currently.precipProbability*100);
+				
+				if(result.currently.cloudCover > 0.1) $("#Right_Cloud").css("opacity","1");
+				if(result.currently.cloudCover > 0.3) $("#Left_Cloud").css("opacity","1");
 				
 				console.log(result);
 				
@@ -278,7 +292,7 @@
 			default:
 				//
 		}		  
-		$("#scoop").css("fill",scoopFill);
+		$("#scoop, .cowspot").css("fill",scoopFill);
 		//$("#scoop").css("stroke",scoopStroke);
 	});
 		
@@ -289,6 +303,8 @@
 		
 		// geolocate
 		getLocation();
+		//updates all data every 5 minutes...or should. #TODO: test! 
+		updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
 		
 		// load background svg
 		$("#background").load("img/background.svg", function() {

@@ -20,7 +20,7 @@ function getSolarData(latitude, longitude)
 {
 	// adapted from NOAA calculator http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
 	var today = new Date();
-	var timeFraction = today.getDayFraction();
+	var timeFraction = today.getDayFraction(); //*1000 to speed up time by a thousand
 	var timezone = -today.getTimezoneOffset()/60; //js uses odd W-is-+ convention
 	var degToRad = Math.PI/180;
 	var radToDeg = 1/degToRad;
@@ -103,7 +103,7 @@ function getSolarData(latitude, longitude)
 	return solarData;
 }
 
-function getSolarCanvasPosition(solarData) {
+function setSunPosition(solarData, winWidth, winHeight) {
 	
 	//get the current state of affairs
 	//preferably read straight off the svg
@@ -120,7 +120,7 @@ function getSolarCanvasPosition(solarData) {
 	
 	//map spherical azimuth and elevation to rectangular canvas
 	var solarAziRect = azi0 + (solarData.solarAzimuth/360)*azi360; //mod azi360?
-	var solarEleRect = solarData.solarElevation > 0 ? (ele0 - (solarData.solarElevation/90)*ele90) : (ele0 + (solarData.solarElevation/90)*eleN90);
+	var solarEleRect = solarData.solarElevation > 0 ? (ele0 - (solarData.solarElevation/90)*(ele0-ele90)) : (ele0 + (solarData.solarElevation/90)*(ele0-eleN90));
 	
 	//get position relative to origin (to facilitate relative translation)
 	var translateX = solarAziRect-sunOriginCX;
@@ -131,6 +131,10 @@ function getSolarCanvasPosition(solarData) {
 	solarDataRect.elevation = solarEleRect;
 	solarDataRect.translateX = translateX;
 	solarDataRect.translateY = translateY;
+	console.log(solarDataRect);
+	
+	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
+	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	
 	return solarDataRect;
 }
