@@ -23,6 +23,11 @@ body {
 	position:relative;
 }
 
+h1.night {
+	transition: color 10s;
+	color:darkgray;
+}
+
 #container {
 	position: absolute;
 	z-index: 99;
@@ -30,7 +35,11 @@ body {
 
 #icecream-options button {
 	background-image: inherit;
-	transition: color 10s, text-shadow 10s, background-color 10s, background-image 10s, border-color 10s;
+	transition: color 1s, text-shadow 1s, background-color 1s, border-color 1s;
+}
+
+#icecream-options button.btn-inverse {
+	color: darkgray;
 }
 
 /* Landscape phones and down */

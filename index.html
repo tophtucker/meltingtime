@@ -9,6 +9,7 @@
 	
 	<!-- Flavoring -->
 	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/snowflakes.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -29,9 +30,10 @@
 
 <body>
 
+	<div id="cloudseed"></div>
 	<div id="background"></div> <!-- loaded by ajax -->
 
-	<div class="container">
+	<div id="mainbody" class="container">
 	
 		<div class="row-fluid">
 		
@@ -57,14 +59,14 @@
 				<p id="notifications"></p>
 				
 				<div id="data-stats" style="display:none;">
-					<p><strong>⊕ Weather</strong>
+					<p><strong>Weather <big>⊕</big></strong>
 					<br/><span class="muted">Coordinates:</span> <span id="data-coordinates">?</span>
 					<br/><span class="muted">Temperature:</span> <span id="data-temp">?</span>ºF
 					<br/><span class="muted">Cloud cover:</span> <span id="data-cloud">?</span>%
 					<br/><span class="muted">Wind:</span> <span id="data-wind">?</span> mph
 					<br/><span class="muted">Precipitation intensity:</span> <span id="data-precip">?</span>
 					<br/><span class="muted">Precipitation probability:</span> <span id="data-precipprob">?</span>%</p>
-					<p><strong>⊙ Ephemeris</strong>
+					<p><strong>Ephemeris <big>⊙</big></strong>
 					<br/><span class="muted">Sunrise time:</span> <span id="data-sunrisetime">?</span>
 					<br/><span class="muted">Sunset time:</span> <span id="data-sunsettime">?</span>
 					<br/><span class="muted">Solar elevation:</span> <span id="data-solarelevation">?</span>º <span id="data-solarelevation-abovebelow">above</span> horizon
@@ -91,7 +93,45 @@
 	<!-- Emulsifiers -->
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/snowflakes.js"></script>
 	<script src="js/meltingtime.js"></script>
+
+	<!--
+	CREDITS
+	
+	Bootstrap, obviously.
+	http://twitter.github.io/bootstrap/
+	
+	Weather data from Forecast.io.
+	https://developer.forecast.io/
+	
+	Solar calculations adapted from this NOAA calculator:
+	http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
+	
+	Snowflake script from dmolsen:
+	https://github.com/dmolsen/CSS3-Snowflakes
+	
+	Ice cream cone by Megan Strickland (2012), via The Noun Project:
+	http://thenounproject.com/noun/ice-cream-cone/#icon-No1653
+	
+	Background aesthetic loosely inspired by the iOS game "Scoops":
+	https://itunes.apple.com/us/app/scoops-ice-cream-fun-for-everyone/id291591378
+	
+	Moon graphic:
+	http://www.webweaver.nu/clipart/moons.shtml
+	
+	Barn adapted from Shutterstock:
+	http://image.shutterstock.com/display_pic_with_logo/216823/216823,1282137614,2/stock-vector-cartoon-red-barn-vector-illustration-59286142.jpg
+	
+	Someone showed me Sleeves after I showed them this; very similar idea:
+	http://gotsleeves.appspot.com/
+	
+	And I saw this midway through development, 
+	which kinda made me think "Oh no, I'm building a weather app too!"
+	http://blog.artlogic.com/2013/07/02/the-new-ui-design-playground/
+	But no, guys. It's an ice cream app. Just keep telling yourself that.
+	
+	-->
 
 </body>
 </html>

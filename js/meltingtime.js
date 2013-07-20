@@ -95,7 +95,7 @@ $(document).ready(function() {
 	
 	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");
-			
+	
 });
 
 
@@ -138,29 +138,45 @@ function updateScene(position)
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
 		dataType: 'jsonp',
 		success: function(result){
-			
+					
+			console.log(result);
 			var temp = result.currently.temperature;
 			
+			// Update data popover
 			$("#data-temp").html(Math.round(temp));
 			$("#data-cloud").html(Math.round(result.currently.cloudCover*100));
 			$("#data-wind").html(Math.round(result.currently.windSpeed));
 			$("#data-precip").html(Math.round(result.currently.precipIntensity));
-			$("#data-precipprob").html(Math.round(result.currently.precipProbability*100));
-			
-			// right cloud shows when cloud cover >= 10%
-			// left cloud shows when cloud cover >= 30%
-			var rightCloudOpacity = (result.currently.cloudCover >= 0.1 ? 1 : 0);
-			var leftCloudOpacity = (result.currently.cloudCover >= 0.3 ? 1 : 0);
-			$("#Right_Cloud").css("opacity",rightCloudOpacity);
-			$("#Left_Cloud").css("opacity",leftCloudOpacity);
-			
-			console.log(result);
-			
+			$("#data-precipprob").html(Math.round(result.currently.precipProbability*100));						
 			$('#data-popover-button').popover({
 				'content':$("#data-stats").html(),
 				'html':true
 			});
 			$("#data-popover-button").removeClass("disabled");
+			
+			// HANDLE CLOUD COVER
+			// right cloud shows when cloud cover >= 10%
+			// left cloud shows when cloud cover >= 30%
+			var rightCloudOpacity = (result.currently.cloudCover >= 0.1 ? .5 : 0);
+			var leftCloudOpacity = (result.currently.cloudCover >= 0.3 ? .5 : 0);
+			$("#Right_Cloud").css("opacity",rightCloudOpacity);
+			$("#Left_Cloud").css("opacity",leftCloudOpacity);
+			// #TODO: MORE CLOUDS!
+			
+			// HANDLE RAIN
+			// #TODO
+			
+			// HANDLE SNOW
+			if(result.currently.precipIntensity > 0 && result.currently.precipType == "snow") {
+				// precipIntensity of 0.4 is very heavy precipitation
+				var snowflakes = new Snowflakes('mainbody','cloudseed');
+				snowflakes.create(result.currently.precipIntensity*250);
+			}
+			
+			////////////////////////////////////
+			// *  M E L T I N G  T I M E !  * //
+			// our hypothetical raison d'etre //
+			////////////////////////////////////
 			
 			var meltCoef = '1000';
 			var flavorCoef = '1';
@@ -297,17 +313,20 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	
-	//ideally it'd be some function of elevation, not this bang-bang
+	// ACTIVATE NIGHT-TIME!!
+	// ideally it'd be some function of elevation, not this bang-bang
 	var skyOpacity = (solarData.solarElevation >= 0 ? 1 : 0);
 	$("#Sky").css("opacity",skyOpacity);
 	$("#Ground_Cover").css("opacity",(1-skyOpacity)*.39);
 	if(solarData.solarElevation >= 0)
 	{
 		$("#icecream-options button").removeClass("btn-inverse");
+		$("h1").removeClass("night");
 	}
 	else
 	{
 		$("#icecream-options button").addClass("btn-inverse");	
+		$("h1").addClass("night");
 	}
 	
 	return solarDataRect;
