@@ -13,8 +13,12 @@ var userLong;
 var bgWidth = 1008;
 var bgHeight = 648;
 var bgRatio = bgWidth/bgHeight;
-var bgScale; //set later
 
+//set later
+var windowRatio;
+var winWidth;
+var winHeight;
+var bgScale;
 
 // / / / / / / / / / / / / //
 /////////////////////////////
@@ -63,32 +67,29 @@ $(document).ready(function() {
 	// activate colophon bootstrap popover
 	$('#colophon-popover-button').popover();
 	
+	// initialize window variables
+	windowRatio = window.innerWidth/window.innerHeight;
+	winWidth = window.innerWidth;
+	winHeight = window.innerHeight;
+	bgScale = bgWidth / winWidth;
+	
 	// geolocate
 	getLocation();
 	//updates all data every 5 minutes...or should. #TODO: test! 
-	updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
+	updateTimer = window.setInterval(getLocation, 600000); // 600000 ms = 10 min
 	
 	// load background svg
 	$("#background").load("img/background.svg", function() {
 		
 		//once it's loaded, scale background to fit window
-		var windowRatio = window.innerWidth/window.innerHeight;
-		var winWidth = window.innerWidth;
-		var winHeight = window.innerHeight;
-		if(bgRatio < windowRatio) {
-			$("#farmbackground").attr("width",window.innerWidth+"px");
-			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-		}
-		else
-		{
-			//#TODO: fill vertically!
-			$("#farmbackground").attr("width",window.innerWidth+"px");
-			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-		}
-		
+		$("#farmbackground").attr("width",winWidth+"px");
+		$("#farmbackground").attr("height",(winWidth/bgRatio)+"px");
+		// #TODO: fill vertically if bgRatio > windowRatio 
+		// (i.e. if the window is narrower than the background)
+				
 	});
 	
-	//load ice cream cone svg
+	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");
 			
 });
@@ -108,9 +109,7 @@ function getLocation()
 	}
 	else 
 	{
-		//this is not how this error should be handled...
-		//in fact, it's downright kafka-esque, since it can never show.
-		$("#data-coordinates").html("Geolocation is not supported by this browser.");
+		//ERROR: Geolocation is not supported by this browser.
 	}
 }
 function updateScene(position)
@@ -139,10 +138,10 @@ function updateScene(position)
 			var temp = result.currently.temperature;
 			
 			$("#data-temp").html(Math.round(temp));
-			$("#data-cloud").html(result.currently.cloudCover*100);
-			$("#data-wind").html(result.currently.windSpeed);
-			$("#data-precip").html(result.currently.precipIntensity);
-			$("#data-precipprob").html(result.currently.precipProbability*100);
+			$("#data-cloud").html(Math.round(result.currently.cloudCover*100));
+			$("#data-wind").html(Math.round(result.currently.windSpeed));
+			$("#data-precip").html(Math.round(result.currently.precipIntensity));
+			$("#data-precipprob").html(Math.round(result.currently.precipProbability*100));
 			
 			// right cloud shows when cloud cover >= 10%
 			// left cloud shows when cloud cover >= 30%
@@ -170,6 +169,7 @@ function updateScene(position)
 			
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
+			// #TODO: ERROR HANDLING!
 			$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
 		}
 	});
@@ -189,7 +189,7 @@ Date.prototype.getDayFraction = function() {
 
 Date.prototype.getJulian = function() {
 	//confer http://stackoverflow.com/questions/11759992/calculating-jdayjulian-day-in-javascript
-	//this commented-out version gives an integer local Julian Date
+	//this commented-out version gives an integer local Julian Date:
 	//return Math.floor((this / 86400000) - (this.getTimezoneOffset()/1440) + 2440587.5);
 	//this returns a UTC Julian Date with fraction:
 	return (this.getTime()/86400000 + 2440587.5);
@@ -261,12 +261,19 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	var sunOriginCY = 313.266;
 	var sunOriginR = 97.631;
 	
+	// THIS MAY NOT BE NECESSARY - APPEARS SCALING OF CANVAS IS APPLIED AFTER, AUTO?
+	// i.e. a 50 "pixel" SVG translation already gets scaled up when the SVG is scaled up.
+	/* var sunScaledCX = sunOriginCX*bgScale;
+	var sunScaledCY = sunOriginCY*bgScale;
+	var sunScaledR = sunOriginR*bgScale; */
+	
 	//calibrate canvas
+	// CHANGING THIS TO REFER TO BGWIDTH AND BGHEIGHT BC IT APPEARS THAT'S HOW IT'S CALC'ED
 	var azi0 = 0;
-	var azi360 = azi0 + winWidth;
-	var ele0 = winHeight/2;
+	var azi360 = azi0 + bgWidth;
+	var ele0 = bgHeight*2/3; //i.e. 2/3 down the page
 	var ele90 = 0;
-	var eleN90 = winHeight;
+	var eleN90 = bgHeight;
 	
 	//map spherical azimuth and elevation to rectangular canvas
 	var solarAziRect = azi0 + (solarData.solarAzimuth/360)*azi360; //mod azi360?
@@ -282,7 +289,7 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	solarDataRect.translateX = translateX;
 	solarDataRect.translateY = translateY;
 	console.log(solarDataRect);
-	
+		
 	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	
