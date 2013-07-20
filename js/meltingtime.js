@@ -1,8 +1,105 @@
+// / / / / / / / / / / / / //
+/////////////////////////////
+///// C O N S T A N T S /////
+/////////////////////////////
+// / / / / / / / / / / / / //
+
 //yeah yeah, i know, API key should be secret... don't steal please! i deserve it, don't I? you vigilante you.
 var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
 var userLat;
 var userLong; 
+
+//background native is 1008px x 648px
+var bgWidth = 1008;
+var bgHeight = 648;
+var bgRatio = bgWidth/bgHeight;
+var bgScale; //set later
+
+
+// / / / / / / / / / / / / //
+/////////////////////////////
+///// I N T E R F A C E /////
+/////////////////////////////
+// / / / / / / / / / / / / //
+
+$("#colophon-popover-button").click(function(event) {
+	$('#data-popover-button').popover('hide')
+});
+
+$("#data-popover-button").click(function(event) {
+	$('#colophon-popover-button').popover('hide')
+});
+
+$("#flavor button").click(function(event) {
+	switch(event.target.dataset.flavor) {
+		case "chocolate":
+			var scoopFill="#664422";
+			//var scoopStroke="white";
+			break;
+		case "coffee":
+			var scoopFill="tan";
+			//var scoopStroke="white";
+			break;
+		case "vanilla":
+			var scoopFill="#f2ebe1";
+			//var scoopStroke="white";
+			break;
+		default:
+			//
+	}		  
+	$("#scoop, .cowspot").css("fill",scoopFill);
+	//$("#scoop").css("stroke",scoopStroke);
+});
+
+
+// / / / / / / / / / / //
+/////////////////////////
+///// O N   L O A D /////
+/////////////////////////
+// / / / / / / / / / / //
+
+$(document).ready(function() {
 	
+	// activate colophon bootstrap popover
+	$('#colophon-popover-button').popover();
+	
+	// geolocate
+	getLocation();
+	//updates all data every 5 minutes...or should. #TODO: test! 
+	updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
+	
+	// load background svg
+	$("#background").load("img/background.svg", function() {
+		
+		//once it's loaded, scale background to fit window
+		var windowRatio = window.innerWidth/window.innerHeight;
+		var winWidth = window.innerWidth;
+		var winHeight = window.innerHeight;
+		if(bgRatio < windowRatio) {
+			$("#farmbackground").attr("width",window.innerWidth+"px");
+			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+		}
+		else
+		{
+			//#TODO: fill vertically!
+			$("#farmbackground").attr("width",window.innerWidth+"px");
+			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
+		}
+		
+	});
+	
+	//load ice cream cone svg
+	$("#icecream-container").load("img/icecream.svg");
+			
+});
+
+
+// / / / / / / / / / / //
+/////////////////////////
+///// W E A T H E R /////
+/////////////////////////
+// / / / / / / / / / / //
+
 function getLocation()
 {
 	if (navigator.geolocation) 
@@ -79,71 +176,12 @@ function updateScene(position)
 	
 }
 
-$("#colophon-popover-button").click(function(event) {
-	$('#data-popover-button').popover('hide')
-});
 
-$("#data-popover-button").click(function(event) {
-	$('#colophon-popover-button').popover('hide')
-});
-
-$("#flavor button").click(function(event) {
-	switch(event.target.dataset.flavor) {
-		case "chocolate":
-			var scoopFill="#664422";
-			//var scoopStroke="white";
-			break;
-		case "coffee":
-			var scoopFill="tan";
-			//var scoopStroke="white";
-			break;
-		case "vanilla":
-			var scoopFill="#f2ebe1";
-			//var scoopStroke="white";
-			break;
-		default:
-			//
-	}		  
-	$("#scoop, .cowspot").css("fill",scoopFill);
-	//$("#scoop").css("stroke",scoopStroke);
-});
-	
-$(document).ready(function() {
-	
-	// activate colophon bootstrap popover
-	$('#colophon-popover-button').popover();
-	
-	// geolocate
-	getLocation();
-	//updates all data every 5 minutes...or should. #TODO: test! 
-	updateTimer = window.setInterval(getLocation, 300000); // 300000 ms = 5 min
-	
-	// load background svg
-	$("#background").load("img/background.svg", function() {
-		
-		//once it's loaded, scale background to fit window
-		//background native is 1008px x 648px
-		var bgRatio = 1008/648;
-		var windowRatio = window.innerWidth/window.innerHeight;
-		var winWidth = window.innerWidth;
-		var winHeight = window.innerHeight;
-		if(bgRatio < windowRatio) {
-			$("#farmbackground").attr("width",window.innerWidth+"px");
-			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-		}
-		else
-		{
-			//#TODO: fill vertically!
-			$("#farmbackground").attr("width",window.innerWidth+"px");
-			$("#farmbackground").attr("height",(window.innerWidth/bgRatio)+"px");
-		}
-		
-	});
-	
-	//load ice cream cone svg
-	$("#icecream-container").load("img/icecream.svg");
-			
-});
+// / / / / / / / / / / / / //
+/////////////////////////////
+///// E P H E M E R I S /////
+/////////////////////////////
+// / / / / / / / / / / / / //
 
 Date.prototype.getDayFraction = function() {
 	return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
@@ -250,19 +288,3 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	
 	return solarDataRect;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
