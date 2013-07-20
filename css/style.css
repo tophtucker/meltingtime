@@ -4,9 +4,9 @@ html {
 }
 
 /* Landscape phones and down */
-@media (max-width: 480px) { ... 
+@media (max-width: 480px) {
 	body {
-		background-image:url('img/icecream-barn-cow-fence-reflected.svg');
+		background-image:url('../img/background.svg');
 		background-size:cover;
 		background-repeat:no-repeat;
 	}
