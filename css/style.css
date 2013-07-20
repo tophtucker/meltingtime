@@ -3,10 +3,13 @@ html {
 	background:#4c9d51;
 }
 
-body {
-	/*background-image:url('img/icecream-barn-cow-fence-reflected.svg');
-	background-size:cover;
-	background-repeat:no-repeat;*/
+/* Landscape phones and down */
+@media (max-width: 480px) { ... 
+	body {
+		background-image:url('img/icecream-barn-cow-fence-reflected.svg');
+		background-size:cover;
+		background-repeat:no-repeat;
+	}
 }
 
 #header {
@@ -27,10 +30,12 @@ body {
 	position:relative;
 }
 
-h1 {
-	font-size: 64pt;
-	line-height: 70pt;
-	z-index:99;
+@media (min-width: 481px) {
+	h1 {
+		font-size: 64pt;
+		line-height: 70pt;
+		z-index:99;
+	}
 }
 
 #background {

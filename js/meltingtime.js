@@ -78,16 +78,20 @@ $(document).ready(function() {
 	//updates all data every 5 minutes...or should. #TODO: test! 
 	updateTimer = window.setInterval(getLocation, 600000); // 600000 ms = 10 min
 	
-	// load background svg
-	$("#background").load("img/background.svg", function() {
+	//below this width, responsive css takes over (see style.css); no dynamic svg bg :(
+	//(it just wasn't working well on iphone and this was easier to sniff... #todo)
+	if(winWidth > 480) {
+		// load background svg
+		$("#background").load("img/background.svg", function() {
 		
-		//once it's loaded, scale background to fit window
-		$("#farmbackground").attr("width",winWidth+"px");
-		$("#farmbackground").attr("height",(winWidth/bgRatio)+"px");
-		// #TODO: fill vertically if bgRatio > windowRatio 
-		// (i.e. if the window is narrower than the background)
+			//once it's loaded, scale background to fit window
+			$("#farmbackground").attr("width",winWidth+"px");
+			$("#farmbackground").attr("height",(winWidth/bgRatio)+"px");
+			// #TODO: fill vertically if bgRatio > windowRatio 
+			// (i.e. if the window is narrower than the background)
 				
-	});
+		});
+	}
 	
 	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");
