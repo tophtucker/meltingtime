@@ -297,5 +297,18 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	
+	//ideally it'd be some function of elevation, not this bang-bang
+	var skyOpacity = (solarData.solarElevation >= 0 ? 1 : 0);
+	$("#Sky").css("opacity",skyOpacity);
+	$("#Ground_Cover").css("opacity",(1-skyOpacity)*.39);
+	if(solarData.solarElevation >= 0)
+	{
+		$("#icecream-options button").removeClass("btn-inverse");
+	}
+	else
+	{
+		$("#icecream-options button").addClass("btn-inverse");	
+	}
+	
 	return solarDataRect;
 }

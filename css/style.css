@@ -1,15 +1,9 @@
 html {
-	/*background:#87ba4f;*/
 	background:#4c9d51;
 }
 
-/* Landscape phones and down */
-@media (max-width: 480px) {
-	body {
-		background-image:url('../img/background.svg');
-		background-size:cover;
-		background-repeat:no-repeat;
-	}
+body {
+	padding: 0 !important;
 }
 
 #header {
@@ -23,13 +17,32 @@ html {
 
 .popover {
 	width: 600px;
-	z-index: 99; /*UGH NOT WORKING, STILL UNDER BOOTSTRAP BUTTON*/
 }
 
 #headertext {
 	position:relative;
 }
 
+#container {
+	position: absolute;
+	z-index: 99;
+}
+
+#icecream-options button {
+	background-image: inherit;
+	transition: color 10s, text-shadow 10s, background-color 10s, background-image 10s, border-color 10s;
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+	body {
+		background-image:url('../img/background.svg');
+		background-size:cover;
+		background-repeat:no-repeat;
+	}
+}
+
+/* Bigger than phones */
 @media (min-width: 481px) {
 	h1 {
 		font-size: 64pt;
@@ -38,6 +51,13 @@ html {
 	}
 }
 
+
+/* / / / / / / / / / / / / / / */
+/* /////////////////////////// */
+/* /// B A C K G R O U N D /// */
+/* /////////////////////////// */
+/* / / / / / / / / / / / / / / */
+
 #background {
 	position:absolute;
 	width:100%;
@@ -45,7 +65,7 @@ html {
 	z-index:0;
 }
 #Left_Cloud, #Right_Cloud {
-	opacity:0;
+	opacity: 0;
 	transition: opacity 5s;
 }
 #Sun {
@@ -55,15 +75,27 @@ html {
 .cowspot {
 	transition: fill 10s;
 }
-		
-#container {
-	position: absolute;
-	z-index: 99;
+#Sky {
+	transition: opacity 10s;
 }
+#Ground_Cover {
+	opacity: 0;
+	transition: opacity 10s;
+}
+
+
+/* / / / / / / / / / / / / / */
+/* ///////////////////////// */
+/* /// I C E   C R E A M /// */
+/* ///////////////////////// */
+/* / / / / / / / / / / / / / */
 
 #icecream-container {
 	float:right;
 	position:relative;
+}
+#icecream-svg {
+	fill: #aa8747;
 }
 #scoop {
 	fill: #664422;
@@ -71,7 +103,6 @@ html {
 	stroke-width: 2;
 	transition: fill 1s;
 }
-
 #scoop.melt
 {
 	/*
