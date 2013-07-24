@@ -6,8 +6,10 @@
 
 //yeah yeah, i know, API key should be secret... don't steal please! i deserve it, don't I? you vigilante you.
 var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
+
 var userLat;
 var userLong; 
+var forecastData;
 
 //background native is 1008px x 648px
 var bgWidth = 1008;
@@ -73,10 +75,11 @@ $(document).ready(function() {
 	winHeight = window.innerHeight;
 	bgScale = bgWidth / winWidth;
 	
-	// geolocate
+	// get location & forecast; initialize data & do first draw
 	getLocation();
+	
 	//updates all data every 5 minutes...or should. #TODO: test! 
-	updateTimer = window.setInterval(getLocation, 120000); // 600000 ms = 10 min
+	//updateTimer = window.setInterval(getLocation, 120000); // 600000 ms = 10 min
 	
 	//below this width, responsive css takes over (see style.css); no dynamic svg bg :(
 	//(it just wasn't working well on iphone and this was easier to sniff... #todo)
@@ -113,7 +116,10 @@ function getLocation()
 	}
 	else 
 	{
-		//ERROR: Geolocation is not supported by this browser.
+		// Geolocation is not supported by this browser.
+		// Fallback: get address by IP.
+		// http://gmaps-samples-v3.googlecode.com/svn/trunk/commonloader/clientlocation.html
+		// http://j.maxmind.com/app/geoip.js
 	}
 }
 function updateScene(position)
@@ -123,7 +129,9 @@ function updateScene(position)
 	userLong = position.coords.longitude;
 	$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
 	
-	var solarData = getSolarData(userLat, userLong);
+	var time = new Date();
+	
+	var solarData = getSolarData(userLat, userLong, time);
 	console.log(solarData);
 	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
 	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
@@ -133,6 +141,11 @@ function updateScene(position)
 	
 	var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
 	
+	getForecast();
+}
+
+function getForecast()
+{
 	$.ajax({
 		type: "GET",
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
@@ -140,60 +153,69 @@ function updateScene(position)
 		success: function(result){
 					
 			console.log(result);
-			var temp = result.currently.temperature;
-			
-			// Update data popover
-			$("#data-temp").html(Math.round(temp));
-			$("#data-cloud").html(Math.round(result.currently.cloudCover*100));
-			$("#data-wind").html(Math.round(result.currently.windSpeed));
-			$("#data-precip").html(Math.round(result.currently.precipIntensity));
-			$("#data-precipprob").html(Math.round(result.currently.precipProbability*100));						
-			$('#data-popover-button').popover({
-				'content':$("#data-stats").html(),
-				'html':true
-			});
-			$("#data-popover-button").removeClass("disabled");
-			
-			// HANDLE CLOUD COVER
-			// right cloud shows when cloud cover >= 10%
-			// left cloud shows when cloud cover >= 30%
-			var rightCloudOpacity = (result.currently.cloudCover >= 0.1 ? .5 : 0);
-			var leftCloudOpacity = (result.currently.cloudCover >= 0.3 ? .5 : 0);
-			$("#Right_Cloud").css("opacity",rightCloudOpacity);
-			$("#Left_Cloud").css("opacity",leftCloudOpacity);
-			// #TODO: MORE CLOUDS!
-			
-			// HANDLE RAIN
-			// #TODO
-			
-			// HANDLE SNOW
-			if(result.currently.precipIntensity > 0 && result.currently.precipType == "snow") {
-				// precipIntensity of 0.4 is very heavy precipitation
-				var snowflakes = new Snowflakes('mainbody','cloudseed');
-				snowflakes.create(result.currently.precipIntensity*250);
-			}
-			
-			////////////////////////////////////
-			// *  M E L T I N G  T I M E !  * //
-			// our hypothetical raison d'etre //
-			////////////////////////////////////
-			
-			var meltCoef = '1000';
-			var flavorCoef = '1';
-			var sizeCoef = '1';
-			var typeCoef = '1';
-			
-			var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
-			var meltTimeDisplay = Math.round(meltTime);
-			$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
+			forecastData = result;
+			updateWeather(result.currently);
 			
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
 			// #TODO: ERROR HANDLING!
 			$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
 		}
+	});	
+}
+
+function getWeather(time)
+{
+	// access forecast result object
+	// return weather object for specified time
+}
+
+function updateWeather(weather)
+{			
+	// Update data popover
+	$("#data-temp").html(Math.round(weather.temperature));
+	$("#data-cloud").html(Math.round(weather.cloudCover*100));
+	$("#data-wind").html(Math.round(weather.windSpeed));
+	$("#data-precip").html(Math.round(weather.precipIntensity));
+	$("#data-precipprob").html(Math.round(weather.precipProbability*100));						
+	$('#data-popover-button').popover({
+		'content':$("#data-stats").html(),
+		'html':true
 	});
+	$("#data-popover-button").removeClass("disabled");
 	
+	// HANDLE CLOUD COVER
+	// right cloud shows when cloud cover >= 10%
+	// left cloud shows when cloud cover >= 30%
+	var rightCloudOpacity = (weather.cloudCover >= 0.1 ? .5 : 0);
+	var leftCloudOpacity = (weather.cloudCover >= 0.3 ? .5 : 0);
+	$("#Right_Cloud").css("opacity",rightCloudOpacity);
+	$("#Left_Cloud").css("opacity",leftCloudOpacity);
+	// #TODO: MORE CLOUDS!
+	
+	// HANDLE RAIN
+	// #TODO
+	
+	// HANDLE SNOW
+	if(weather.precipIntensity > 0 && weather.precipType == "snow") {
+		// precipIntensity of 0.4 is very heavy precipitation
+		var snowflakes = new Snowflakes('mainbody','cloudseed');
+		snowflakes.create(weather.precipIntensity*250);
+	}
+	
+	////////////////////////////////////
+	// *  M E L T I N G  T I M E !  * //
+	// our hypothetical raison d'etre //
+	////////////////////////////////////
+	
+	var meltCoef = '1000';
+	var flavorCoef = '1';
+	var sizeCoef = '1';
+	var typeCoef = '1';
+	
+	var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/weather.temperature);
+	var meltTimeDisplay = Math.round(meltTime);
+	$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
 }
 
 
@@ -221,16 +243,16 @@ function dayFractionToTimeString(fraction) {
 	return (date.getHours() + ":" + date.getMinutes());
 }
 
-function getSolarData(latitude, longitude)
+function getSolarData(latitude, longitude, time)
 {
 	// adapted from NOAA calculator http://www.esrl.noaa.gov/gmd/grad/solcalc/calcdetails.html
-	var today = new Date();
-	var timeFraction = today.getDayFraction(); //*1000 to speed up time by a thousand
-	var timezone = -today.getTimezoneOffset()/60; //js uses odd W-is-+ convention
+	//var today = new Date();
+	var timeFraction = time.getDayFraction(); //*1000 to speed up time by a thousand
+	var timezone = -time.getTimezoneOffset()/60; //js uses odd W-is-+ convention
 	var degToRad = Math.PI/180;
 	var radToDeg = 1/degToRad;
 	
-	var julianDay = today.getJulian();
+	var julianDay = time.getJulian();
 	var julianCentury = (julianDay-2451545)/36525;
 	 
 	var geomMeanLongSun_deg 	= (280.46646+julianCentury*(36000.76983 + julianCentury*0.0003032)) % 360;
