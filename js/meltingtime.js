@@ -66,21 +66,24 @@ $("#flavor button").click(function(event) {
 
 $("#playbutton").click(function(event) {
 	
-	//var forecastTimestamp = forecastData.currently.time;
-	//var timestamp = Math.round(time.getTime()/1000);
-	//var secondsElapsed = timestamp-forecastTimestamp;
+	// ends realtime live updating
+	clearInterval(liveUpdateTimer);
 	
+	// updates svg classes for faster animation
 	$("#Sun, #Left_Cloud, #Right_Cloud").addClass("play");
 	
+	// saves the time the button was clicked	
 	playTime = Math.round(new Date().getTime()/1000);
 	
-	updateTimer = window.setInterval(function() {
+	// begins running
+	playUpdateTimer = window.setInterval(function() {
 		var timestampNow = Math.round(new Date().getTime()/1000);
 		var timeElapsed = timestampNow-playTime;
 		var futureTime = playTime + timeElapsed*playSpeed;
 		var time = new Date(futureTime*1000);
 		updateScene(time);
 	}, playInterval);
+	
 });
 
 
@@ -101,12 +104,6 @@ $(document).ready(function() {
 	winHeight = window.innerHeight;
 	bgScale = bgWidth / winWidth;
 	
-	// get location & forecast; initialize data & do first draw
-	getLocation();
-	
-	//updates all data every 5 minutes...or should. #TODO: test! 
-	//updateTimer = window.setInterval(getLocation, 120000); // 600000 ms = 10 min
-	
 	//below this width, responsive css takes over (see style.css); no dynamic svg bg :(
 	//(it just wasn't working well on iphone and this was easier to sniff... #todo)
 	if(winWidth > 480) {
@@ -125,14 +122,16 @@ $(document).ready(function() {
 	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");
 	
+	// get location & forecast; initialize data & do first draw
+	getLocation();
+	
+	// updates scene every 5 minutes (300000 ms)
+	liveUpdateTimer = window.setInterval(updateScene, 300000);
+	
+	// updates location & weather data every 24 hours (86400000 ms)
+	dailyUpdateTimer = window.setInterval(getLocation, 86400000);
+	
 });
-
-
-// / / / / / / / / / / //
-/////////////////////////
-///// W E A T H E R /////
-/////////////////////////
-// / / / / / / / / / / //
 
 function getLocation()
 {
@@ -143,6 +142,8 @@ function getLocation()
 			userLat = position.coords.latitude;
 			userLong = position.coords.longitude;
 			$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+			
+			// fetch forecast from forecast.io api
 			getForecast();
 		});
 	}
@@ -153,17 +154,6 @@ function getLocation()
 		// http://gmaps-samples-v3.googlecode.com/svn/trunk/commonloader/clientlocation.html
 		// http://j.maxmind.com/app/geoip.js
 	}
-}
-
-function updateScene(time)
-{	
-	// SUN
-	var solarData = getSolarData(userLat, userLong, time);
-	setSunPosition(solarData);
-	
-	// WEATHER
-	var weather = getWeather(time);
-	updateWeather(weather);
 }
 
 function getForecast()
@@ -185,10 +175,30 @@ function getForecast()
 	});	
 }
 
+function updateScene(time)
+{
+	// default to now
+	if(typeof time === "undefined") time = new Date();
+	
+	// SUN
+	var solarData = getSolarData(userLat, userLong, time);
+	setSunPosition(solarData);
+	
+	// WEATHER
+	var weather = getWeather(time);
+	updateWeather(weather);
+}
+
+
+// / / / / / / / / / / //
+/////////////////////////
+///// W E A T H E R /////
+/////////////////////////
+// / / / / / / / / / / //
+
 function getWeather(time)
 {
-	// access forecast result object
-	// return weather object for specified time
+	// access forecast result object & return weather object for specified time
 	
 	/* 
 	forecastData object:	
