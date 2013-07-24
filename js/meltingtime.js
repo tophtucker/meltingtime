@@ -112,7 +112,13 @@ function getLocation()
 {
 	if (navigator.geolocation) 
 	{
-		navigator.geolocation.getCurrentPosition(updateScene);
+		navigator.geolocation.getCurrentPosition(function(position) { 
+			console.log(position);
+			userLat = position.coords.latitude;
+			userLong = position.coords.longitude;
+			$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+			getForecast();
+		});
 	}
 	else 
 	{
@@ -122,26 +128,16 @@ function getLocation()
 		// http://j.maxmind.com/app/geoip.js
 	}
 }
-function updateScene(position)
-{
-	console.log(position);
-	userLat = position.coords.latitude;
-	userLong = position.coords.longitude;
-	$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
-	
-	var time = new Date();
-	
+
+function updateScene(time)
+{	
+	// SUN
 	var solarData = getSolarData(userLat, userLong, time);
-	console.log(solarData);
-	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
-	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
-	$("#data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
-	$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
-	$("#data-solarelevation-abovebelow").html(solarData.solarElevation>0 ? "above" : "below");
+	setSunPosition(solarData);
 	
-	var solarDataRect = setSunPosition(solarData,window.innerWidth,window.innerHeight);
-	
-	getForecast();
+	// WEATHER
+	var weather = getWeather(time);
+	updateWeather(weather);
 }
 
 function getForecast()
@@ -151,11 +147,10 @@ function getForecast()
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
 		dataType: 'jsonp',
 		success: function(result){
-					
 			console.log(result);
 			forecastData = result;
-			updateWeather(result.currently);
-			
+			var time = new Date();
+			updateScene(time);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
 			// #TODO: ERROR HANDLING!
@@ -168,6 +163,59 @@ function getWeather(time)
 {
 	// access forecast result object
 	// return weather object for specified time
+	
+	/* 
+	forecastData object:	
+		currently
+			weather object
+		minutely
+			data
+				0
+				1
+				...
+				60
+					precipitation object (subset of weather object)
+		hourly
+			data
+				0
+				1
+				...
+				48
+					weather object
+		daily
+			data
+				0
+				1
+				...
+				7
+					weather object* 
+						*temperatureMax and temperatureMin but no temperature!
+	*/
+	
+	var forecastTimestamp = forecastData.currently.time;
+	var timestamp = Math.round(time.getTime()/1000);
+	var secondsElapsed = timestamp-forecastTimestamp;
+	var hoursElapsed = Math.floor(secondsElapsed/3600);
+	var daysElapsed = Math.floor(hoursElapsed/24);
+	
+	if(hoursElapsed < 1) {
+		// return forecast for current time
+		// NOTE: minutely only has information about precipitation, so currently ignoring
+		return forecastData.currently;
+	}
+	else if(daysElapsed < 1) {
+		// return forecast for hour
+		return forecastData.hourly.data.hoursElapsed;
+	}
+	else if(daysElapsed < 8) {
+		// return forecast for day
+		// NOTE: the object returned has no temperature attribute! only max and min
+		return forecastData.daily.data.daysElapsed;
+	}
+	else {
+		// beyond forecast range
+		return false;
+	}
 }
 
 function updateWeather(weather)
@@ -294,7 +342,18 @@ function getSolarData(latitude, longitude, time)
 	return solarData;
 }
 
-function setSunPosition(solarData, winWidth, winHeight) {
+function setSunPosition(solarData) {
+	
+	// write to data popover
+	console.log(solarData);
+	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
+	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
+	$("#data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
+	$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
+	$("#data-solarelevation-abovebelow").html(solarData.solarElevation>0 ? "above" : "below");
+	
+	var winWidth = window.innerWidth;
+	var winHeight = window.innerHeight;
 	
 	//get the current state of affairs
 	//preferably read straight off the svg
