@@ -76,7 +76,7 @@ $(document).ready(function() {
 	// geolocate
 	getLocation();
 	//updates all data every 5 minutes...or should. #TODO: test! 
-	updateTimer = window.setInterval(getLocation, 600000); // 600000 ms = 10 min
+	updateTimer = window.setInterval(getLocation, 120000); // 600000 ms = 10 min
 	
 	//below this width, responsive css takes over (see style.css); no dynamic svg bg :(
 	//(it just wasn't working well on iphone and this was easier to sniff... #todo)
@@ -289,9 +289,11 @@ function setSunPosition(solarData, winWidth, winHeight) {
 	
 	//calibrate canvas
 	// CHANGING THIS TO REFER TO BGWIDTH AND BGHEIGHT BC IT APPEARS THAT'S HOW IT'S CALC'ED
+	// horizon is actually more like 55% down page (not 2/3), but sun is so large --
+	// -- like, 2700 arcminutes -- that we fudge it. (it's 32 arcminutes irl.)
 	var azi0 = 0;
 	var azi360 = azi0 + bgWidth;
-	var ele0 = bgHeight*2/3; //i.e. 2/3 down the page
+	var ele0 = bgHeight*(2/3); //i.e. 2/3 down the page
 	var ele90 = 0;
 	var eleN90 = bgHeight;
 	
