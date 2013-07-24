@@ -74,7 +74,7 @@ Snowflakes.prototype.create = Snowflakes.prototype.moreSnow = function(snowflake
 
 /* Snowflakes.lessSnow(N) - removes N number of snowflakes from the DOM */
 Snowflakes.prototype.lessSnow = function(snowflakeCount) {
-	if (this.snowflakesContainer.childNodes.length > snowflakeCount) {
+	if (this.snowflakesContainer.childNodes.length >= snowflakeCount) {
 		var snowRemoveCount = 0;
 		while (snowRemoveCount < snowflakeCount) {
 			this.snowflakesContainer.removeChild(this.snowflakesContainer.lastChild);
@@ -91,14 +91,17 @@ Snowflakes.prototype.snowCount = function(newSnowCount) {
 	
 	// if parameter, set snow count
 	if(newSnowCount == this.snowflakesContainer.childNodes.length) {
+		console.log("A | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		return true;
 	}
 	else if(newSnowCount > this.snowflakesContainer.childNodes.length) {
 		// add the difference
+		console.log("B | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		this.moreSnow(newSnowCount - this.snowflakesContainer.childNodes.length);
 	}
 	else {
 		// remove the difference
+		console.log("C | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		this.lessSnow(this.snowflakesContainer.childNodes.length - newSnowCount);
 	}
 }
