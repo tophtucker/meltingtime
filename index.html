@@ -9,7 +9,9 @@
 	
 	<!-- Flavoring -->
 	<link href="css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
 	<link href="css/snowflakes.css" rel="stylesheet">
+	<link href="css/rain.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 
 	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -30,7 +32,8 @@
 
 <body>
 
-	<div id="cloudseed"></div>
+	<div id="snowcloud"></div>
+	<div id="raincloud"></div>
 	<div id="background"></div> <!-- loaded by ajax -->
 
 	<div id="mainbody" class="container">
@@ -40,8 +43,9 @@
 			<div class="span8">
 							
 				<div id="icecream-options" class="btn-toolbar hidden-phone">
-					<div class="btn-group control-buttons" id="playgroup">
-						<button class="btn btn-large btn-success" id="playbutton"><i class="icon-fast-forward"></i></button>
+					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="playspeed">
+						<button class="btn btn-large btn-success active" id="play-button"><i class="icon-play"></i></button>
+						<button class="btn btn-large btn-success" id="fastforward-button"><i class="icon-fast-forward"></i></button>
 					</div>
 					
 					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="flavor">
@@ -51,7 +55,7 @@
 					</div>
 					
 					<div class="btn-group control-buttons" data-toggle="buttons-radio" id="scoopsize">
-						<button class="btn btn-large" data-scoopsize="treat">Treat</button>
+						<!--<button class="btn btn-large" data-scoopsize="treat">Treat</button>-->
 						<button class="btn btn-large" data-scoopsize="small">Small</button>
 						<button class="btn btn-large active" data-scoopsize="medium">Medium</button>
 						<button class="btn btn-large" data-scoopsize="large">Large</button>
@@ -96,10 +100,11 @@
 	
 	<!-- Emulsifiers -->
 	<script src="http://code.jquery.com/jquery.js"></script>
-	<script src="js/jquery.svg.js"></script>
-	<script src="js/jquery.svgdom.js"></script>
+	<!--<script src="js/jquery.svg.js"></script>
+	<script src="js/jquery.svgdom.js"></script>-->
 	<script src="js/bootstrap.js"></script>
 	<script src="js/snowflakes.js"></script>
+	<script src="js/rain.js"></script>
 	<script src="js/meltingtime.js"></script>
 
 	<!--

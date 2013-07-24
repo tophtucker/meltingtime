@@ -28,6 +28,7 @@ var playSpeed = 2000;
 var playInterval = 1000;
 
 var snowflakes;
+var rainstorm;
 
 // / / / / / / / / / / / / //
 /////////////////////////////
@@ -64,19 +65,36 @@ $("#flavor button").click(function(event) {
 	//$("#scoop").css("stroke",scoopStroke);
 });
 
-$("#playbutton").click(function(event) {
-	
+$("#scoopsize button").click(function(event) {
+	switch(event.target.dataset.scoopsize) {
+		case "small":
+			var scoopSize=".7";
+			break;
+		case "medium":
+			var scoopSize="1";
+			break;
+		case "large":
+			var scoopSize="1.2";
+			break;
+		default:
+			//
+	}		
+	$("#icecream-svg").css("-webkit-transform","scale("+scoopSize+","+scoopSize+")");
+});
+
+$("#fastforward-button").click(function(event) {
 	// ends realtime live updating
 	clearInterval(liveUpdateTimer);
 	
 	// updates svg classes for faster animation
-	$("#Sun, #Left_Cloud, #Right_Cloud").addClass("play");
+	//$("#Sun").addClass("play");
+	//document.getElementById('Sun').setAttributeNS("http://www.w3.org/2000/svg","class","play");
 	
 	// saves the time the button was clicked	
 	playTime = Math.round(new Date().getTime()/1000);
 	
 	// begins running
-	playUpdateTimer = window.setInterval(function() {
+	ffUpdateTimer = window.setInterval(function() {
 		var timestampNow = Math.round(new Date().getTime()/1000);
 		var timeElapsed = timestampNow-playTime;
 		var futureTime = playTime + timeElapsed*playSpeed;
@@ -85,6 +103,15 @@ $("#playbutton").click(function(event) {
 	}, playInterval);
 	
 });
+
+$("#play-button").click(function(event) {
+	// ends realtime live updating
+	clearInterval(ffUpdateTimer);
+	updateScene();
+	// returns to updating scene every 5 minutes (300000 ms)
+	liveUpdateTimer = window.setInterval(updateScene, 300000);
+});
+
 
 
 // / / / / / / / / / / //
@@ -282,17 +309,31 @@ function updateWeather(weather)
 	$("#Right_Cloud").css("opacity",rightCloudOpacity);
 	$("#Left_Cloud").css("opacity",leftCloudOpacity);
 	// #TODO: MORE CLOUDS!
-		
+	
+	console.log("PrecipIntensity: " + weather.precipIntensity);
+	
 	// HANDLE RAIN
-	// #TODO
-	
-	console.log("Precip intensity: " + weather.precipIntensity);
-	
+	if(weather.precipIntensity > 0 && weather.precipType == "rain") {
+		// precipIntensity of 0.4 is very heavy precipitation
+		if(typeof rainstorm === "undefined") rainstorm = new Rainstorm('mainbody','raincloud');
+		rainstorm.rainCount(weather.precipIntensity*10000);
+	}
+	else {
+		if(!(typeof rainstorm === "undefined")) rainstorm.rainCount(0);
+	}
+		
 	// HANDLE SNOW
 	if(weather.precipIntensity > 0 && weather.precipType == "snow") {
 		// precipIntensity of 0.4 is very heavy precipitation
-		if(typeof snowflakes === "undefined") snowflakes = new Snowflakes('mainbody','cloudseed');
-		snowflakes.snowCount(weather.precipIntensity*250);
+		if(typeof snowflakes === "undefined") snowflakes = new Snowflakes('mainbody','snowcloud');
+		snowflakes.snowCount(weather.precipIntensity*10000);
+		console.log("Snow count: " + snowflakes.snowCount());
+	}
+	else {
+		if(!(typeof snowflakes === "undefined")) {
+			snowflakes.snowCount(0);
+			console.log("Snow count: " + snowflakes.snowCount());
+		}
 	}
 	
 	////////////////////////////////////
@@ -447,12 +488,14 @@ function setSunPosition(solarData) {
 	$("#Ground_Cover").css("opacity",(1-skyOpacity)*.39);
 	if(solarData.solarElevation >= 0)
 	{
-		$("#icecream-options button").removeClass("btn-inverse");
+		$("#flavor button, #scoopsize button").removeClass("btn-inverse");
+		$("#playspeed button").addClass("btn-success");
 		$("h1").removeClass("night");
 	}
 	else
 	{
-		$("#icecream-options button").addClass("btn-inverse");	
+		$("#flavor button, #scoopsize button").addClass("btn-inverse");	
+		$("#playspeed button").removeClass("btn-success");
 		$("h1").addClass("night");
 	}
 	
