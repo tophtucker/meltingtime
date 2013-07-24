@@ -22,6 +22,13 @@ var winWidth;
 var winHeight;
 var bgScale;
 
+// the time the "play" (fast-forward) button is clicked
+var playTime;
+var playSpeed = 2000;
+var playInterval = 1000;
+
+var snowflakes;
+
 // / / / / / / / / / / / / //
 /////////////////////////////
 ///// I N T E R F A C E /////
@@ -55,6 +62,25 @@ $("#flavor button").click(function(event) {
 	}		  
 	$("#scoop, .cowspot").css("fill",scoopFill);
 	//$("#scoop").css("stroke",scoopStroke);
+});
+
+$("#playbutton").click(function(event) {
+	
+	//var forecastTimestamp = forecastData.currently.time;
+	//var timestamp = Math.round(time.getTime()/1000);
+	//var secondsElapsed = timestamp-forecastTimestamp;
+	
+	$("#Sun, #Left_Cloud, #Right_Cloud").addClass("play");
+	
+	playTime = Math.round(new Date().getTime()/1000);
+	
+	updateTimer = window.setInterval(function() {
+		var timestampNow = Math.round(new Date().getTime()/1000);
+		var timeElapsed = timestampNow-playTime;
+		var futureTime = playTime + timeElapsed*playSpeed;
+		var time = new Date(futureTime*1000);
+		updateScene(time);
+	}, playInterval);
 });
 
 
@@ -113,7 +139,7 @@ function getLocation()
 	if (navigator.geolocation) 
 	{
 		navigator.geolocation.getCurrentPosition(function(position) { 
-			console.log(position);
+			//console.log(position);
 			userLat = position.coords.latitude;
 			userLong = position.coords.longitude;
 			$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
@@ -195,25 +221,31 @@ function getWeather(time)
 	var forecastTimestamp = forecastData.currently.time;
 	var timestamp = Math.round(time.getTime()/1000);
 	var secondsElapsed = timestamp-forecastTimestamp;
-	var hoursElapsed = Math.floor(secondsElapsed/3600);
+	var minutesElapsed = Math.floor(secondsElapsed/60);
+	var hoursElapsed = Math.floor(minutesElapsed/60);
 	var daysElapsed = Math.floor(hoursElapsed/24);
 	
-	if(hoursElapsed < 1) {
+	// if minutes < cardinality of minutely array (off-by-one errors cancel...)
+	if(minutesElapsed < 61) {
 		// return forecast for current time
 		// NOTE: minutely only has information about precipitation, so currently ignoring
+		//console.log("Returning minute " + secondsElapsed/60);
 		return forecastData.currently;
 	}
-	else if(daysElapsed < 1) {
+	else if(hoursElapsed < 49) {
 		// return forecast for hour
-		return forecastData.hourly.data.hoursElapsed;
+		//console.log("Returning hour " + hoursElapsed);
+		return forecastData.hourly.data[hoursElapsed];
 	}
 	else if(daysElapsed < 8) {
 		// return forecast for day
 		// NOTE: the object returned has no temperature attribute! only max and min
-		return forecastData.daily.data.daysElapsed;
+		//console.log("Returning day " + daysElapsed);
+		return forecastData.daily.data[daysElapsed];
 	}
 	else {
 		// beyond forecast range
+		//console.log("Beyond forecast range.");
 		return false;
 	}
 }
@@ -235,20 +267,22 @@ function updateWeather(weather)
 	// HANDLE CLOUD COVER
 	// right cloud shows when cloud cover >= 10%
 	// left cloud shows when cloud cover >= 30%
-	var rightCloudOpacity = (weather.cloudCover >= 0.1 ? .5 : 0);
-	var leftCloudOpacity = (weather.cloudCover >= 0.3 ? .5 : 0);
+	var rightCloudOpacity = (weather.cloudCover >= 0.33 ? .5 : 0);
+	var leftCloudOpacity = (weather.cloudCover >= 0.66 ? .5 : 0);
 	$("#Right_Cloud").css("opacity",rightCloudOpacity);
 	$("#Left_Cloud").css("opacity",leftCloudOpacity);
 	// #TODO: MORE CLOUDS!
-	
+		
 	// HANDLE RAIN
 	// #TODO
+	
+	console.log("Precip intensity: " + weather.precipIntensity);
 	
 	// HANDLE SNOW
 	if(weather.precipIntensity > 0 && weather.precipType == "snow") {
 		// precipIntensity of 0.4 is very heavy precipitation
-		var snowflakes = new Snowflakes('mainbody','cloudseed');
-		snowflakes.create(weather.precipIntensity*250);
+		if(typeof snowflakes === "undefined") snowflakes = new Snowflakes('mainbody','cloudseed');
+		snowflakes.snowCount(weather.precipIntensity*250);
 	}
 	
 	////////////////////////////////////
@@ -345,7 +379,7 @@ function getSolarData(latitude, longitude, time)
 function setSunPosition(solarData) {
 	
 	// write to data popover
-	console.log(solarData);
+	//console.log(solarData);
 	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
 	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
 	$("#data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
@@ -391,7 +425,7 @@ function setSunPosition(solarData) {
 	solarDataRect.elevation = solarEleRect;
 	solarDataRect.translateX = translateX;
 	solarDataRect.translateY = translateY;
-	console.log(solarDataRect);
+	//console.log(solarDataRect);
 		
 	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");

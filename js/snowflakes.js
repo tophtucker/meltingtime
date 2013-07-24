@@ -82,3 +82,23 @@ Snowflakes.prototype.lessSnow = function(snowflakeCount) {
 		}
 	}
 }
+
+/* Snowflakes.snowCount(N) - returns or sets number of snowflakes */
+Snowflakes.prototype.snowCount = function(newSnowCount) {
+	
+	// if no parameter, return snow count
+	if(typeof newSnowCount === "undefined") return this.snowflakesContainer.childNodes.length;
+	
+	// if parameter, set snow count
+	if(newSnowCount == this.snowflakesContainer.childNodes.length) {
+		return true;
+	}
+	else if(newSnowCount > this.snowflakesContainer.childNodes.length) {
+		// add the difference
+		this.moreSnow(newSnowCount - this.snowflakesContainer.childNodes.length);
+	}
+	else {
+		// remove the difference
+		this.lessSnow(this.snowflakesContainer.childNodes.length - newSnowCount);
+	}
+}
