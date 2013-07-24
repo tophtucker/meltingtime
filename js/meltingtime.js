@@ -30,6 +30,10 @@ var playInterval = 1000;
 var snowflakes;
 var rainstorm;
 
+var flavor = "chocolate";
+var scoopSizeDefault = 35;
+var scoopSize = scoopSizeDefault;
+
 // / / / / / / / / / / / / //
 /////////////////////////////
 ///// I N T E R F A C E /////
@@ -45,7 +49,8 @@ $("#data-popover-button").click(function(event) {
 });
 
 $("#flavor button").click(function(event) {
-	switch(event.target.dataset.flavor) {
+	flavor = event.target.dataset.flavor;
+	switch(flavor) {
 		case "chocolate":
 			var scoopFill="#664422";
 			//var scoopStroke="white";
@@ -68,18 +73,20 @@ $("#flavor button").click(function(event) {
 $("#scoopsize button").click(function(event) {
 	switch(event.target.dataset.scoopsize) {
 		case "small":
-			var scoopSize=".7";
+			var scoopScale=".7";
 			break;
 		case "medium":
-			var scoopSize="1";
+			var scoopScale="1";
 			break;
 		case "large":
-			var scoopSize="1.2";
+			var scoopScale="1.2";
 			break;
 		default:
 			//
 	}		
-	$("#icecream-svg").css("-webkit-transform","scale("+scoopSize+","+scoopSize+")");
+	scoopSize = scoopSizeDefault*scoopScale;
+	$("#icecream-svg").css("-webkit-transform","scale("+scoopScale+","+scoopScale+")");
+	updateScene();
 });
 
 $("#fastforward-button").click(function(event) {
@@ -313,13 +320,11 @@ function updateWeather(weather)
 	$("#Left_Cloud").css("opacity",leftCloudOpacity);
 	// #TODO: MORE CLOUDS!
 	
-	console.log("PrecipIntensity: " + weather.precipIntensity);
-	
 	// HANDLE RAIN
 	if(weather.precipIntensity > 0 && weather.precipType == "rain") {
 		// precipIntensity of 0.4 is very heavy precipitation
 		if(typeof rainstorm === "undefined") rainstorm = new Rainstorm('mainbody','raincloud');
-		rainstorm.rainCount(weather.precipIntensity*10000);
+		rainstorm.rainCount(weather.precipProbability*weather.precipIntensity*10000);
 	}
 	else {
 		if(!(typeof rainstorm === "undefined")) rainstorm.rainCount(0);
@@ -329,14 +334,10 @@ function updateWeather(weather)
 	if(weather.precipIntensity > 0 && weather.precipType == "snow") {
 		// precipIntensity of 0.4 is very heavy precipitation
 		if(typeof snowflakes === "undefined") snowflakes = new Snowflakes('mainbody','snowcloud');
-		snowflakes.snowCount(weather.precipIntensity*10000);
-		console.log("Snow count: " + snowflakes.snowCount());
+		snowflakes.snowCount(weather.precipProbability*weather.precipIntensity*10000);
 	}
 	else {
-		if(!(typeof snowflakes === "undefined")) {
-			snowflakes.snowCount(0);
-			console.log("Snow count: " + snowflakes.snowCount());
-		}
+		if(!(typeof snowflakes === "undefined")) snowflakes.snowCount(0);
 	}
 	
 	////////////////////////////////////
@@ -344,12 +345,11 @@ function updateWeather(weather)
 	// our hypothetical raison d'etre //
 	////////////////////////////////////
 	
-	var meltCoef = '1000';
 	var flavorCoef = '1';
-	var sizeCoef = '1';
 	var typeCoef = '1';
+		
+	var meltTime = flavorCoef * typeCoef * scoopSize * 71/(temp-10);
 	
-	var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
 	var meltTimeDisplay = Math.round(meltTime);
 	$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
 }
