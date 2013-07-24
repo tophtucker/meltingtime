@@ -289,8 +289,11 @@ function getWeather(time)
 
 function updateWeather(weather)
 {			
+	var temp = weather.temperature;
+	if(typeof weather.temperature === "undefined") temp = (weather.temperatureMin + weather.temperatureMax) / 2;
+	
 	// Update data popover
-	$("#data-temp").html(Math.round(weather.temperature));
+	$("#data-temp").html(Math.round(temp));
 	$("#data-cloud").html(Math.round(weather.cloudCover*100));
 	$("#data-wind").html(Math.round(weather.windSpeed));
 	$("#data-precip").html(Math.round(weather.precipIntensity));
@@ -346,7 +349,7 @@ function updateWeather(weather)
 	var sizeCoef = '1';
 	var typeCoef = '1';
 	
-	var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/weather.temperature);
+	var meltTime = meltCoef * flavorCoef * sizeCoef * typeCoef * (1/temp);
 	var meltTimeDisplay = Math.round(meltTime);
 	$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
 }
