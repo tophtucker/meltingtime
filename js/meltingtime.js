@@ -213,7 +213,7 @@ function updateScene(time)
 	
 	// WEATHER
 	var weather = getWeather(time);
-	updateWeather(weather);
+	if(weather) updateWeather(weather);
 }
 
 
