@@ -419,6 +419,7 @@ function getSolarData(latitude, longitude, time)
 	var solarAzimuth_degCWfromN	= hourAngle_deg>0 ? (radToDeg*(Math.acos(((Math.sin(degToRad*(latitude))*Math.cos(degToRad*(solarZenithAngle_deg)))-Math.sin(degToRad*(sunDeclin_deg)))/(Math.cos(degToRad*(latitude))*Math.sin(degToRad*(solarZenithAngle_deg)))))+180)%360 : (540-radToDeg*(Math.acos(((Math.sin(degToRad*(latitude))*Math.cos(degToRad*(solarZenithAngle_deg)))-Math.sin(degToRad*(sunDeclin_deg)))/(Math.cos(degToRad*(latitude))*Math.sin(degToRad*(solarZenithAngle_deg))))))%360;
 	
 	var solarData = new Object();
+	solarData.timeFraction = timeFraction;
 	solarData.julianDay = julianDay;
 	solarData.sunriseTime = sunriseTime_LST;
 	solarData.sunsetTime = sunsetTime_LST;
@@ -501,6 +502,9 @@ function setSunPosition(solarData) {
 		$("#playspeed button").removeClass("btn-success");
 		$("h1").addClass("night");
 	}
+	
+	console.log("fraction: " + solarData.timeFraction + " | degrees: " + (solarData.timeFraction*360) + " | shifted: " + (((solarData.timeFraction+0.5)*360))%360);
+	$("#Starfield").css("-webkit-transform","rotate("+(((solarData.timeFraction+0.5)*360)%360)+"deg)");
 	
 	return solarDataRect;
 }

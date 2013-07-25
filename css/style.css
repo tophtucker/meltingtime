@@ -23,6 +23,9 @@ body {
 	position:relative;
 }
 
+h1 { 
+	transition: color 10s;
+}
 h1.night {
 	transition: color 10s;
 	color:darkgray;
@@ -153,4 +156,12 @@ h1.night {
 	100% {
 		-webkit-transform: scale(.75,.2) translate(0px, 5px);
 	}
+}
+
+#Starfield {
+	transform-origin: 50% 50%;
+	-webkit-transform-origin: 50% 50%;
+	transition: -webkit-transform 1s;
+	transition: transform 1s;
+	transition-timing-function: linear;
 }
