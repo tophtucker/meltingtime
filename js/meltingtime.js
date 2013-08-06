@@ -119,6 +119,9 @@ $("#play-button").click(function(event) {
 	liveUpdateTimer = window.setInterval(updateScene, 300000);
 });
 
+function notify(message) {
+	alert(message);
+}
 
 
 // / / / / / / / / / / //
@@ -130,7 +133,11 @@ $("#play-button").click(function(event) {
 $(document).ready(function() {
 	
 	// activate colophon bootstrap popover
-	$('#colophon-popover-button').popover();
+	$('#colophon-popover-button').popover({
+		'content':$("#colophon-content").html(),
+		'html':true
+	});
+
 	
 	// initialize window variables
 	windowRatio = window.innerWidth/window.innerHeight;
@@ -179,6 +186,11 @@ function getLocation()
 			
 			// fetch forecast from forecast.io api
 			getForecast();
+		}, function(error) { 
+			// if the user denies permission to get location, user random location
+			notify("Location permission denied; using random location."); 
+			randomizeLocation();
+			getForecast();
 		});
 	}
 	else 
@@ -187,11 +199,17 @@ function getLocation()
 		// Fallback: get address by IP.
 		// http://gmaps-samples-v3.googlecode.com/svn/trunk/commonloader/clientlocation.html
 		// http://j.maxmind.com/app/geoip.js
+		
+		notify("Geolocation is not supported by your browser; using random location."); 
+		randomizeLocation();
+		getForecast();
 	}
 }
 
 function getForecast()
 {
+	$("h1").html("Getting forecast...");
+	/*
 	$.ajax({
 		type: "GET",
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
@@ -204,9 +222,14 @@ function getForecast()
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
 			// #TODO: ERROR HANDLING!
-			$("#notifications").html("There was an unknown error. The site could not be reached. "+errorThrown+" "+textStatus);
+			notify("The forecast could not be retrieved. "+errorThrown+" "+textStatus);
+		},
+		failure: function(){
+			notify("Ahhh help");
 		}
-	});	
+	});	*/
+	var time = new Date();
+			updateScene(time);
 }
 
 function updateScene(time)
@@ -262,35 +285,51 @@ function getWeather(time)
 						*temperatureMax and temperatureMin but no temperature!
 	*/
 	
-	var forecastTimestamp = forecastData.currently.time;
-	var timestamp = Math.round(time.getTime()/1000);
-	var secondsElapsed = timestamp-forecastTimestamp;
-	var minutesElapsed = Math.floor(secondsElapsed/60);
-	var hoursElapsed = Math.floor(minutesElapsed/60);
-	var daysElapsed = Math.floor(hoursElapsed/24);
+	if(!(typeof forecastData === "undefined")) {
 	
-	// if minutes < cardinality of minutely array (off-by-one errors cancel...)
-	if(minutesElapsed < 61) {
-		// return forecast for current time
-		// NOTE: minutely only has information about precipitation, so currently ignoring
-		//console.log("Returning minute " + secondsElapsed/60);
-		return forecastData.currently;
-	}
-	else if(hoursElapsed < 49) {
-		// return forecast for hour
-		//console.log("Returning hour " + hoursElapsed);
-		return forecastData.hourly.data[hoursElapsed];
-	}
-	else if(daysElapsed < 8) {
-		// return forecast for day
-		// NOTE: the object returned has no temperature attribute! only max and min
-		//console.log("Returning day " + daysElapsed);
-		return forecastData.daily.data[daysElapsed];
+		var forecastTimestamp = forecastData.currently.time;
+		var timestamp = Math.round(time.getTime()/1000);
+		var secondsElapsed = timestamp-forecastTimestamp;
+		var minutesElapsed = Math.floor(secondsElapsed/60);
+		var hoursElapsed = Math.floor(minutesElapsed/60);
+		var daysElapsed = Math.floor(hoursElapsed/24);
+	
+		// if minutes < cardinality of minutely array (off-by-one errors cancel...)
+		if(minutesElapsed < 61) {
+			// return forecast for current time
+			// NOTE: minutely only has information about precipitation, so currently ignoring
+			//console.log("Returning minute " + secondsElapsed/60);
+			return forecastData.currently;
+		}
+		else if(hoursElapsed < 49) {
+			// return forecast for hour
+			//console.log("Returning hour " + hoursElapsed);
+			return forecastData.hourly.data[hoursElapsed];
+		}
+		else if(daysElapsed < 8) {
+			// return forecast for day
+			// NOTE: the object returned has no temperature attribute! only max and min
+			//console.log("Returning day " + daysElapsed);
+			return forecastData.daily.data[daysElapsed];
+		}
+		else {
+			// beyond forecast range
+			//console.log("Beyond forecast range.");
+			return false;
+		}
+	
 	}
 	else {
-		// beyond forecast range
-		//console.log("Beyond forecast range.");
-		return false;
+	
+		var fakeCurrently = new Object();
+		fakeCurrently.temperature = 73;
+		fakeCurrently.cloudCover = .3;
+		fakeCurrently.windSpeed = 10;
+		fakeCurrently.precipIntensity = 0.01;
+		fakeCurrently.precipProbability = .1;
+		fakeCurrently.precipType = 'snow';
+		return fakeCurrently;
+	
 	}
 }
 
@@ -303,7 +342,7 @@ function updateWeather(weather)
 	$("#data-temp").html(Math.round(temp));
 	$("#data-cloud").html(Math.round(weather.cloudCover*100));
 	$("#data-wind").html(Math.round(weather.windSpeed));
-	$("#data-precip").html(Math.round(weather.precipIntensity));
+	$("#data-precip").html(weather.precipIntensity);
 	$("#data-precipprob").html(Math.round(weather.precipProbability*100));						
 	$('#data-popover-button').popover({
 		'content':$("#data-stats").html(),
@@ -347,7 +386,7 @@ function updateWeather(weather)
 	
 	var flavorCoef = '1';
 	var typeCoef = '1';
-		
+	
 	var meltTime = flavorCoef * typeCoef * scoopSize * 71/(temp-10);
 	
 	var meltTimeDisplay = Math.round(meltTime);
@@ -360,6 +399,14 @@ function updateWeather(weather)
 ///// E P H E M E R I S /////
 /////////////////////////////
 // / / / / / / / / / / / / //
+
+function randomizeLocation() {
+	//notice that this over-represents high latitudes
+	//userLat = rand();
+	//userLong = rand();
+	userLat = 42;
+	userLong = -71;
+}
 
 Date.prototype.getDayFraction = function() {
 	return (this.getHours()+(this.getMinutes()/60)+(this.getSeconds()/3600))/24;
@@ -505,6 +552,7 @@ function setSunPosition(solarData) {
 	
 	console.log("fraction: " + solarData.timeFraction + " | degrees: " + (solarData.timeFraction*360) + " | shifted: " + (((solarData.timeFraction+0.5)*360))%360);
 	$("#Starfield").css("-webkit-transform","rotate("+(((solarData.timeFraction+0.5)*360)%360)+"deg)");
+	$("#Starfield").css("transform","rotate("+(((solarData.timeFraction+0.5)*360)%360)+"deg)");
 	
 	return solarDataRect;
 }

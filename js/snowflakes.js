@@ -91,17 +91,17 @@ Snowflakes.prototype.snowCount = function(newSnowCount) {
 	
 	// if parameter, set snow count
 	if(newSnowCount == this.snowflakesContainer.childNodes.length) {
-		console.log("A | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
+		//console.log("A | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		return true;
 	}
 	else if(newSnowCount > this.snowflakesContainer.childNodes.length) {
 		// add the difference
-		console.log("B | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
+		//console.log("B | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		this.moreSnow(newSnowCount - this.snowflakesContainer.childNodes.length);
 	}
 	else {
 		// remove the difference
-		console.log("C | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
+		//console.log("C | Desired: " + newSnowCount + " | Current: " + this.snowflakesContainer.childNodes.length);
 		this.lessSnow(this.snowflakesContainer.childNodes.length - newSnowCount);
 	}
 }
