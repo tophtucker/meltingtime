@@ -8,7 +8,9 @@
 var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
 
 var userLat;
-var userLong; 
+var userLong;
+var userCity;
+var userCountry;
 var forecastData;
 
 //background native is 1008px x 648px
@@ -120,7 +122,8 @@ $("#play-button").click(function(event) {
 });
 
 function notify(message) {
-	alert(message);
+	$("#notifications").html(message);
+	$("#notifications").fadeTo(1000, 1).fadeTo(1000, .3);
 }
 
 
@@ -188,8 +191,14 @@ function getLocation()
 			getForecast();
 		}, function(error) { 
 			// if the user denies permission to get location, user random location
-			notify("Location permission denied; using random location."); 
-			randomizeLocation();
+			if (error.code == 1) {
+				// user said no
+				notify("Location permission denied; estimating by IP address."); 
+			} else {
+				// unknown error
+				notify("Can’t get location; estimating by IP address."); 
+			}
+			getLocationByIP();
 			getForecast();
 		});
 	}
@@ -200,16 +209,30 @@ function getLocation()
 		// http://gmaps-samples-v3.googlecode.com/svn/trunk/commonloader/clientlocation.html
 		// http://j.maxmind.com/app/geoip.js
 		
-		notify("Geolocation is not supported by your browser; using random location."); 
-		randomizeLocation();
+		notify("Geolocation is not supported by your browser; estimating by IP address."); 
+		getLocationByIP();
 		getForecast();
+	}
+}
+
+function getLocationByIP()
+{
+	if (google.loader.ClientLocation) {
+		userLat = google.loader.ClientLocation.latitude;
+		userLong = google.loader.ClientLocation.longitude;
+		userCity = google.loader.ClientLocation.address.city;
+		userCountry = google.loader.ClientLocation.address.country;	
+		$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+	} else {
+		notify('Unable to find location; using random location.');
+		randomizeLocation();
 	}
 }
 
 function getForecast()
 {
 	$("h1").html("Getting forecast...");
-	/*
+	
 	$.ajax({
 		type: "GET",
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
@@ -227,9 +250,9 @@ function getForecast()
 		failure: function(){
 			notify("Ahhh help");
 		}
-	});	*/
-	var time = new Date();
-			updateScene(time);
+	});	
+	/*var time = new Date();
+	updateScene(time);*/
 }
 
 function updateScene(time)
@@ -320,7 +343,8 @@ function getWeather(time)
 	
 	}
 	else {
-	
+		
+		notify("Can't retrieve real weather, so making something up instead.");
 		var fakeCurrently = new Object();
 		fakeCurrently.temperature = 73;
 		fakeCurrently.cloudCover = .3;
@@ -401,11 +425,9 @@ function updateWeather(weather)
 // / / / / / / / / / / / / //
 
 function randomizeLocation() {
-	//notice that this over-represents high latitudes
-	//userLat = rand();
-	//userLong = rand();
-	userLat = 42;
-	userLong = -71;
+	//notice that this over-represents high latitudes; not all deg-deg graticule areas are equal
+	userLat = Math.random()*180 - 90;
+	userLong = Math.random()*360 - 180;
 }
 
 Date.prototype.getDayFraction = function() {
@@ -550,7 +572,6 @@ function setSunPosition(solarData) {
 		$("h1").addClass("night");
 	}
 	
-	console.log("fraction: " + solarData.timeFraction + " | degrees: " + (solarData.timeFraction*360) + " | shifted: " + (((solarData.timeFraction+0.5)*360))%360);
 	$("#Starfield").css("-webkit-transform","rotate("+(((solarData.timeFraction+0.5)*360)%360)+"deg)");
 	$("#Starfield").css("transform","rotate("+(((solarData.timeFraction+0.5)*360)%360)+"deg)");
 	

@@ -12,7 +12,15 @@ body {
 
 #footer {
 	position: fixed;
+	width: 100%;
 	bottom: 0;
+}
+
+#notifications {
+	color:white;
+	text-align:right;
+	float:right;
+	opacity:0;
 }
 
 .popover {
