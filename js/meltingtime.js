@@ -12,6 +12,7 @@ var userLong;
 var userCity;
 var userCountry;
 var forecastData;
+var temp;
 
 //background native is 1008px x 648px
 var bgWidth = 1008;
@@ -88,7 +89,7 @@ $("#scoopsize button").click(function(event) {
 	}		
 	scoopSize = scoopSizeDefault*scoopScale;
 	$("#icecream-svg").css("-webkit-transform","scale("+scoopScale+","+scoopScale+")");
-	updateScene();
+	meltingTime();
 });
 
 $("#fastforward-button").click(function(event) {
@@ -185,7 +186,7 @@ function getLocation()
 			//console.log(position);
 			userLat = position.coords.latitude;
 			userLong = position.coords.longitude;
-			$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+			$(".data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
 			
 			// fetch forecast from forecast.io api
 			getForecast();
@@ -222,7 +223,7 @@ function getLocationByIP()
 		userLong = google.loader.ClientLocation.longitude;
 		userCity = google.loader.ClientLocation.address.city;
 		userCountry = google.loader.ClientLocation.address.country;	
-		$("#data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
+		$(".data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
 	} else {
 		notify('Unable to find location; using random location.');
 		randomizeLocation();
@@ -259,6 +260,7 @@ function updateScene(time)
 {
 	// default to now
 	if(typeof time === "undefined") time = new Date();
+	$(".data-time").html(time.toLocaleDateString()+" "+time.toLocaleTimeString());
 	
 	// SUN
 	var solarData = getSolarData(userLat, userLong, time);
@@ -267,6 +269,13 @@ function updateScene(time)
 	// WEATHER
 	var weather = getWeather(time);
 	if(weather) updateWeather(weather);
+	
+	// update data popover
+	$('#data-popover-button').popover({
+		'content':function (){return $("#data-stats").html()},
+		'html':true
+	});
+	$("#data-popover-button").removeClass("disabled");
 }
 
 
@@ -359,21 +368,16 @@ function getWeather(time)
 
 function updateWeather(weather)
 {			
-	var temp = weather.temperature;
+	temp = weather.temperature;
 	if(typeof weather.temperature === "undefined") temp = (weather.temperatureMin + weather.temperatureMax) / 2;
 	
 	// Update data popover
-	$("#data-temp").html(Math.round(temp));
-	$("#data-cloud").html(Math.round(weather.cloudCover*100));
-	$("#data-wind").html(Math.round(weather.windSpeed));
-	$("#data-precip").html(weather.precipIntensity);
-	$("#data-precipprob").html(Math.round(weather.precipProbability*100));						
-	$('#data-popover-button').popover({
-		'content':$("#data-stats").html(),
-		'html':true
-	});
-	$("#data-popover-button").removeClass("disabled");
-	
+	$(".data-temp").html(Math.round(temp));
+	$(".data-cloud").html(Math.round(weather.cloudCover*100));
+	$(".data-wind").html(Math.round(weather.windSpeed));
+	$(".data-precip").html(weather.precipIntensity);
+	$(".data-precipprob").html(Math.round(weather.precipProbability*100));						
+		
 	// HANDLE CLOUD COVER
 	// right cloud shows when cloud cover >= 10%
 	// left cloud shows when cloud cover >= 30%
@@ -403,10 +407,14 @@ function updateWeather(weather)
 		if(!(typeof snowflakes === "undefined")) snowflakes.snowCount(0);
 	}
 	
-	////////////////////////////////////
-	// *  M E L T I N G  T I M E !  * //
-	// our hypothetical raison d'etre //
-	////////////////////////////////////
+	meltingTime();
+}
+
+////////////////////////////////////
+// *  M E L T I N G  T I M E !  * //
+// our hypothetical raison d'etre //
+////////////////////////////////////
+function meltingTime() {
 	
 	var flavorCoef = '1';
 	var typeCoef = '1';
@@ -504,11 +512,11 @@ function setSunPosition(solarData) {
 	
 	// write to data popover
 	//console.log(solarData);
-	$("#data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
-	$("#data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
-	$("#data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
-	$("#data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
-	$("#data-solarelevation-abovebelow").html(solarData.solarElevation>0 ? "above" : "below");
+	$(".data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
+	$(".data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
+	$(".data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
+	$(".data-solarazimuth").html(Math.round(solarData.solarAzimuth*10)/10);
+	$(".data-solarelevation-abovebelow").html(solarData.solarElevation>0 ? "above" : "below");
 	
 	var winWidth = window.innerWidth;
 	var winHeight = window.innerHeight;
