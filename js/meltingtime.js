@@ -325,7 +325,7 @@ function getWeather(time)
 		var minutesElapsed = Math.floor(secondsElapsed/60);
 		var hoursElapsed = Math.floor(minutesElapsed/60);
 		var daysElapsed = Math.floor(hoursElapsed/24);
-	
+		
 		// if minutes < cardinality of minutely array (off-by-one errors cancel...)
 		if(minutesElapsed < 61) {
 			// return forecast for current time
@@ -346,24 +346,27 @@ function getWeather(time)
 		}
 		else {
 			// beyond forecast range
-			//console.log("Beyond forecast range.");
-			return false;
+			notify("Beyond forecast range. Just gonna make stuff up.");
+			return randomizeWeather();
 		}
 	
 	}
-	else {
-		
-		notify("Can't retrieve real weather, so making something up instead.");
-		var fakeCurrently = new Object();
-		fakeCurrently.temperature = 73;
-		fakeCurrently.cloudCover = .3;
-		fakeCurrently.windSpeed = 10;
-		fakeCurrently.precipIntensity = 0.01;
-		fakeCurrently.precipProbability = .1;
-		fakeCurrently.precipType = 'snow';
-		return fakeCurrently;
-	
+	else {		
+		notify("Can't retrieve real weather; making something up instead.");
+		return randomizeWeather();	
 	}
+}
+
+function randomizeWeather()
+{
+	var fakeWeather = new Object();
+	fakeWeather.temperature = Math.random()*100 + 10;
+	fakeWeather.cloudCover = Math.random();
+	fakeWeather.windSpeed = 100 * Math.random();
+	fakeWeather.precipIntensity = 0.4 * Math.random();
+	fakeWeather.precipProbability = Math.random();
+	fakeWeather.precipType = (Math.random() > 0.5 ? 'rain' : 'snow');
+	return fakeWeather;
 }
 
 function updateWeather(weather)
@@ -375,7 +378,7 @@ function updateWeather(weather)
 	$(".data-temp").html(Math.round(temp));
 	$(".data-cloud").html(Math.round(weather.cloudCover*100));
 	$(".data-wind").html(Math.round(weather.windSpeed));
-	$(".data-precip").html(weather.precipIntensity);
+	$(".data-precip").html(Math.round(weather.precipIntensity*1000)/1000);
 	$(".data-precipprob").html(Math.round(weather.precipProbability*100));						
 		
 	// HANDLE CLOUD COVER
