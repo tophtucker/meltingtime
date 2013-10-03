@@ -183,7 +183,6 @@ function getLocation()
 	if (navigator.geolocation) 
 	{
 		navigator.geolocation.getCurrentPosition(function(position) { 
-			//console.log(position);
 			userLat = position.coords.latitude;
 			userLong = position.coords.longitude;
 			$(".data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
@@ -239,7 +238,6 @@ function getForecast()
 		url: "https://api.forecast.io/forecast/"+forecastAPIkey+"/"+userLat+","+userLong,
 		dataType: 'jsonp',
 		success: function(result){
-			console.log(result);
 			forecastData = result;
 			var time = new Date();
 			updateScene(time);
@@ -330,18 +328,15 @@ function getWeather(time)
 		if(minutesElapsed < 61) {
 			// return forecast for current time
 			// NOTE: minutely only has information about precipitation, so currently ignoring
-			//console.log("Returning minute " + secondsElapsed/60);
 			return forecastData.currently;
 		}
 		else if(hoursElapsed < 49) {
 			// return forecast for hour
-			//console.log("Returning hour " + hoursElapsed);
 			return forecastData.hourly.data[hoursElapsed];
 		}
 		else if(daysElapsed < 8) {
 			// return forecast for day
 			// NOTE: the object returned has no temperature attribute! only max and min
-			//console.log("Returning day " + daysElapsed);
 			return forecastData.daily.data[daysElapsed];
 		}
 		else {
@@ -514,7 +509,6 @@ function getSolarData(latitude, longitude, time)
 function setSunPosition(solarData) {
 	
 	// write to data popover
-	//console.log(solarData);
 	$(".data-sunrisetime").html(dayFractionToTimeString(solarData.sunriseTime));
 	$(".data-sunsettime").html(dayFractionToTimeString(solarData.sunsetTime));
 	$(".data-solarelevation").html(Math.abs(Math.round(solarData.solarElevation*10)/10));
@@ -560,7 +554,6 @@ function setSunPosition(solarData) {
 	solarDataRect.elevation = solarEleRect;
 	solarDataRect.translateX = translateX;
 	solarDataRect.translateY = translateY;
-	//console.log(solarDataRect);
 		
 	$("#farmbackground #Sun").css("-webkit-transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
 	$("#farmbackground #Sun").css("transform","translate("+solarDataRect.translateX+"px,"+solarDataRect.translateY+"px)");
