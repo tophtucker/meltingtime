@@ -21,7 +21,7 @@ var bgHeight = 648;
 var bgRatio = bgWidth/bgHeight;
 
 //set later
-var windowRatio;
+var winRatio;
 var winWidth;
 var winHeight;
 var bgScale;
@@ -93,7 +93,7 @@ $("#scoopsize button").click(function(event) {
 	meltingTime();
 });
 
-$("#fastforward-button").click(function(event) {
+$("#fastforward-button, #fastforward-button-mobile").click(function(event) {
 	// ends realtime live updating
 	clearInterval(liveUpdateTimer);
 	
@@ -115,7 +115,7 @@ $("#fastforward-button").click(function(event) {
 	
 });
 
-$("#play-button").click(function(event) {
+$("#play-button, #play-button-mobile").click(function(event) {
 	// ends realtime live updating
 	clearInterval(ffUpdateTimer);
 	updateScene();
@@ -145,25 +145,27 @@ $(document).ready(function() {
 
 	
 	// initialize window variables
-	windowRatio = window.innerWidth/window.innerHeight;
+	winRatio = window.innerWidth/window.innerHeight;
 	winWidth = window.innerWidth;
 	winHeight = window.innerHeight;
 	bgScale = bgWidth / winWidth;
 	
-	//below this width, responsive css takes over (see style.css); no dynamic svg bg :(
-	//(it just wasn't working well on iphone and this was easier to sniff... #todo)
-	if(winWidth > 480) {
-		// load background svg
-		$("#background").load("img/background.svg", function() {
-		
-			//once it's loaded, scale background to fit window
+	// load background svg
+	$("#background").load("img/background.svg", function() {
+	
+		//once it's loaded, scale background to fit window		
+		if(winRatio >= bgRatio) {
+			// if winRatio > bgRatio, fill horizontally		
 			$("#farmbackground").attr("width",winWidth+"px");
-			$("#farmbackground").attr("height",(winWidth/bgRatio)+"px");
-			// #TODO: fill vertically if bgRatio > windowRatio 
-			// (i.e. if the window is narrower than the background)
-				
-		});
-	}
+			$("#farmbackground").attr("height",(winWidth/bgRatio)+"px");			
+		} 
+		else {
+			// if winRatio < bgRatio, fill vertically
+			$("#farmbackground").attr("width",(winHeight*bgRatio)+"px");
+			$("#farmbackground").attr("height",winHeight+"px");
+		}
+		
+	});
 	
 	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");

@@ -4,6 +4,7 @@ html, body {
 
 body {
 	padding: 0 !important;
+	overflow: hidden;
 }
 
 #header {
@@ -54,20 +55,48 @@ h1.night {
 }
 
 /* Landscape phones and down */
-@media (max-width: 480px) {
-	body {
+@media (max-width: 767px) {
+	/* body {
 		background-image:url('../img/background.svg');
 		background-size:cover;
 		background-repeat:no-repeat;
+	} */
+	
+	body {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	
+	#mainbody {
+		padding:10px;
+	}
+	
+	#meltingtime {
+		position: absolute;
+		z-index: 1;
+	}
+	
+	.popover p {
+		font-size: 0.9em;
+		line-height: 1.1em;
+	}
+	
+	h1 {
+		text-shadow:1px 1px #fff;
 	}
 }
 
 /* Bigger than phones */
-@media (min-width: 481px) {
+@media (min-width: 768px) {
 	h1 {
 		font-size: 64pt;
 		line-height: 70pt;
 		z-index:99;
+	}
+	
+	#playspeed-mobile {
+		display: none;
 	}
 }
 
