@@ -9,6 +9,7 @@ var forecastAPIkey = 'ddfdd44606f4fb476c0c7fec167bf4a0';
 
 var userLat;
 var userLong;
+var userAlt;
 var userCity;
 var userCountry;
 var forecastData;
@@ -185,6 +186,7 @@ function getLocation()
 		navigator.geolocation.getCurrentPosition(function(position) { 
 			userLat = position.coords.latitude;
 			userLong = position.coords.longitude;
+			userAlt = position.coords.altitude;
 			$(".data-coordinates").html(Math.round(userLat*100)/100 + "º, " + Math.round(userLong*100)/100 + "º");
 			
 			// fetch forecast from forecast.io api
@@ -361,6 +363,7 @@ function randomizeWeather()
 	fakeWeather.precipIntensity = 0.4 * Math.random();
 	fakeWeather.precipProbability = Math.random();
 	fakeWeather.precipType = (Math.random() > 0.5 ? 'rain' : 'snow');
+	fakeWeather.pressure = 1000+(Math.random()*20);
 	return fakeWeather;
 }
 
@@ -371,10 +374,19 @@ function updateWeather(weather)
 	
 	// Update data popover
 	$(".data-temp").html(Math.round(temp));
+	$(".data-pressure").html(Math.round(weather.pressure));
 	$(".data-cloud").html(Math.round(weather.cloudCover*100));
 	$(".data-wind").html(Math.round(weather.windSpeed));
-	$(".data-precip").html(Math.round(weather.precipIntensity*1000)/1000);
-	$(".data-precipprob").html(Math.round(weather.precipProbability*100));						
+	if(weather.precipProbability != 0) {
+		$(".data-noprecip").hide();
+		$(".data-precip").show();
+		$(".data-precipamt").html(Math.round(weather.precipIntensity*1000)/1000);
+		$(".data-precipprob").html(Math.round(weather.precipProbability*100));						
+		$(".data-preciptype").html(weather.precipType);
+	} else {
+		$(".data-precip").hide();
+		$(".data-noprecip").show();
+	}
 		
 	// HANDLE CLOUD COVER
 	// right cloud shows when cloud cover >= 10%
