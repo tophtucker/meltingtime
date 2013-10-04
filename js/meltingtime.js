@@ -170,6 +170,7 @@ $(document).ready(function() {
 	// load ice cream cone svg
 	$("#icecream-container").load("img/icecream.svg");
 	
+	
 	// get location & forecast; initialize data & do first draw
 	getLocation();
 	
@@ -597,3 +598,10 @@ function setSunPosition(solarData) {
 	
 	return solarDataRect;
 }
+
+// / / / / / / / / / / //
+/////////////////////////
+///// H E L P E R S /////
+/////////////////////////
+// / / / / / / / / / / //
+

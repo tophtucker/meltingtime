@@ -141,6 +141,32 @@ h1.night {
 #Ground_Cover {
 	opacity: 0;
 	transition: opacity 10s;
+	pointer-events: none;
+}
+
+#Head {
+	transform: translateY(0px);
+	-webkit-transform: translateY(0px);
+}
+#Head:hover {
+	transform: translateY(2px);
+	-webkit-transform: translateY(2px);
+}
+#Head:active {
+	transform: translateY(1px);
+	-webkit-transform: translateY(1px);
+}
+#Udder {
+	transform: translateY(0px);
+	-webkit-transform: translateY(0px);
+}
+#Udder:hover {
+	transform: translateY(1px);
+	-webkit-transform: translateY(1px);
+}
+#Udder:active {
+	transform: translateY(2px);
+	-webkit-transform: translateY(2px);
 }
 
 
