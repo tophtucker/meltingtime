@@ -1201,67 +1201,59 @@
 		</g>
 	</g>
 	<!-- Numbered left to right -->
-	<g id="Cloud_1" transform="translate(-60 40)">
-		
-			<ellipse id="_x31_2" transform="matrix(0.9923 0.1238 -0.1238 0.9923 17.7957 -23.5856)" fill="#FFFFFF" cx="198.678" cy="131.4" rx="58.493" ry="54.842"/>
-		
-			<ellipse id="_x31_1" transform="matrix(0.9923 0.1238 -0.1238 0.9923 14.3923 -15.76)" fill="#FFFFFF" cx="134.008" cy="107.927" rx="53.997" ry="32.753"/>
-		
-			<ellipse id="_x31_0" transform="matrix(0.9923 0.1238 -0.1238 0.9923 15.0596 -28.9003)" fill="#FFFFFF" cx="240.065" cy="106.721" rx="27.748" ry="21.644"/>
-		
-			<ellipse id="_x38_" transform="matrix(0.9923 0.1238 -0.1238 0.9923 12.5779 -19.7858)" fill="#FFFFFF" cx="165.5" cy="91.318" rx="29.185" ry="22.747"/>
-		
-			<ellipse id="_x37_" transform="matrix(0.9923 0.1238 -0.1238 0.9923 20.1698 -30.5217)" fill="#FFFFFF" cx="255.675" cy="147.034" rx="51.62" ry="26.945"/>
-		
-			<ellipse id="_x36_" transform="matrix(0.531 -0.8474 0.8474 0.531 -65.0676 194.0161)" fill="#FFFFFF" cx="142.735" cy="155.788" rx="18" ry="31.171"/>
+	<!-- cloud by Aaron Wolf -->
+	<g id="Cloud_1" class="cloud" transform="translate(140 170) scale(0.5)">
+		<ellipse id="_x31_2" transform="matrix(0.9923 0.1238 -0.1238 0.9923 17.7957 -23.5856)" fill="#FFFFFF" cx="198.678" cy="131.4" rx="58.493" ry="54.842"/>
+		<ellipse id="_x31_1" transform="matrix(0.9923 0.1238 -0.1238 0.9923 14.3923 -15.76)" fill="#FFFFFF" cx="134.008" cy="107.927" rx="53.997" ry="32.753"/>
+		<ellipse id="_x31_0" transform="matrix(0.9923 0.1238 -0.1238 0.9923 15.0596 -28.9003)" fill="#FFFFFF" cx="240.065" cy="106.721" rx="27.748" ry="21.644"/>
+		<ellipse id="_x38_" transform="matrix(0.9923 0.1238 -0.1238 0.9923 12.5779 -19.7858)" fill="#FFFFFF" cx="165.5" cy="91.318" rx="29.185" ry="22.747"/>
+		<ellipse id="_x37_" transform="matrix(0.9923 0.1238 -0.1238 0.9923 20.1698 -30.5217)" fill="#FFFFFF" cx="255.675" cy="147.034" rx="51.62" ry="26.945"/>
+		<ellipse id="_x36_" transform="matrix(0.531 -0.8474 0.8474 0.531 -65.0676 194.0161)" fill="#FFFFFF" cx="142.735" cy="155.788" rx="18" ry="31.171"/>
 	</g>
-	<g id="Cloud_2" transform="translate(-40)">
-		<g>
-			<path id="_x31_2_1_" fill="#FFFFFF" d="M470.981,76.599c31.941-4,58.75,11.037,59.876,33.587
-				c1.126,22.549-23.856,44.071-55.8,48.072c-31.942,4-58.75-11.036-59.876-33.586S439.037,80.6,470.981,76.599z"/>
-		
-				<ellipse id="_x31_1_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 361.47 528.7804)" fill="#FFFFFF" cx="421.701" cy="99.668" rx="32.752" ry="53.996"/>
-		
-				<ellipse id="_x31_0_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 447.3981 558.76)" fill="#FFFFFF" cx="478.334" cy="75.494" rx="21.643" ry="27.748"/>
-		
-				<ellipse id="_x38__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 442.9956 648.3987)" fill="#FFFFFF" cx="516.976" cy="122.324" rx="22.746" ry="29.185"/>
-		
-				<ellipse id="_x37__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 475.3825 620.1558)" fill="#FFFFFF" cx="520.301" cy="93.443" rx="26.945" ry="51.62"/>
-		
-				<ellipse id="_x36__1_" transform="matrix(-0.9417 -0.3363 0.3363 -0.9417 753.1974 392.8076)" fill="#FFFFFF" cx="410.62" cy="131.17" rx="31.172" ry="18.001"/>
-		</g>
+	<!-- cloud by Aaron Wolf -->
+	<g id="Cloud_2" class="cloud" transform="translate(-40)">
+		<path id="_x31_2_1_" fill="#FFFFFF" d="M470.981,76.599c31.941-4,58.75,11.037,59.876,33.587
+			c1.126,22.549-23.856,44.071-55.8,48.072c-31.942,4-58.75-11.036-59.876-33.586S439.037,80.6,470.981,76.599z"/>
+		<ellipse id="_x31_1_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 361.47 528.7804)" fill="#FFFFFF" cx="421.701" cy="99.668" rx="32.752" ry="53.996"/>
+		<ellipse id="_x31_0_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 447.3981 558.76)" fill="#FFFFFF" cx="478.334" cy="75.494" rx="21.643" ry="27.748"/>
+		<ellipse id="_x38__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 442.9956 648.3987)" fill="#FFFFFF" cx="516.976" cy="122.324" rx="22.746" ry="29.185"/>
+		<ellipse id="_x37__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 475.3825 620.1558)" fill="#FFFFFF" cx="520.301" cy="93.443" rx="26.945" ry="51.62"/>
+		<ellipse id="_x36__1_" transform="matrix(-0.9417 -0.3363 0.3363 -0.9417 753.1974 392.8076)" fill="#FFFFFF" cx="410.62" cy="131.17" rx="31.172" ry="18.001"/>
 	</g>
-	<g id="Cloud_3" transform="translate(-280 40)">
-		<g>
-		
-				<ellipse id="_x35__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 784.405 949.3726)" fill="#FFFFFF" cx="840.483" cy="104.301" rx="42.403" ry="74.876"/>
-		
-				<ellipse id="_x34__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 692.7745 918.2049)" fill="#FFFFFF" cx="779.945" cy="131.989" rx="39.319" ry="49.39"/>
-		
-				<ellipse id="_x33__1_" transform="matrix(-0.1958 -0.9806 0.9806 -0.1958 843.251 840.4701)" fill="#FFFFFF" cx="766.25" cy="74.471" rx="43.788" ry="57.829"/>
-		
-				<ellipse id="_x32__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 826.0155 917.0826)" fill="#FFFFFF" cx="846.028" cy="68.521" rx="21.587" ry="47.031"/>
-		
-				<ellipse id="_x31__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 682.3956 857.1285)" fill="#FFFFFF" cx="745.922" cy="106.346" rx="42.404" ry="74.876"/>
-		
-				<ellipse id="_x32__2_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 607.1622 837.3456)" fill="#FFFFFF" cx="698.952" cy="131.988" rx="21.587" ry="47.031"/>
-		</g>
+	<!-- cloud by Aaron Wolf -->
+	<g id="Cloud_3" class="cloud" transform="translate(-280 40)">
+		<ellipse id="_x35__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 784.405 949.3726)" fill="#FFFFFF" cx="840.483" cy="104.301" rx="42.403" ry="74.876"/>
+		<ellipse id="_x34__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 692.7745 918.2049)" fill="#FFFFFF" cx="779.945" cy="131.989" rx="39.319" ry="49.39"/>
+		<ellipse id="_x33__1_" transform="matrix(-0.1958 -0.9806 0.9806 -0.1958 843.251 840.4701)" fill="#FFFFFF" cx="766.25" cy="74.471" rx="43.788" ry="57.829"/>
+		<ellipse id="_x32__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 826.0155 917.0826)" fill="#FFFFFF" cx="846.028" cy="68.521" rx="21.587" ry="47.031"/>
+		<ellipse id="_x31__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 682.3956 857.1285)" fill="#FFFFFF" cx="745.922" cy="106.346" rx="42.404" ry="74.876"/>
+		<ellipse id="_x32__2_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 607.1622 837.3456)" fill="#FFFFFF" cx="698.952" cy="131.988" rx="21.587" ry="47.031"/>
 	</g>
-	<g id="Cloud_4" transform="translate(40 -10)">
-		
-			<ellipse id="_x35_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 31.0544 -119.1454)" fill="#FFFFFF" cx="866.029" cy="162.105" rx="74.879" ry="42.405"/>
-		
-			<ellipse id="_x34_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 29.8517 -123.0426)" fill="#FFFFFF" cx="893.255" cy="151.573" rx="49.391" ry="39.321"/>
+	<!-- cloud by Aaron Wolf -->
+	<g id="Cloud_4" class="cloud" transform="translate(40 -10)">
+		<ellipse id="_x35_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 31.0544 -119.1454)" fill="#FFFFFF" cx="866.029" cy="162.105" rx="74.879" ry="42.405"/>		
+		<ellipse id="_x34_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 29.8517 -123.0426)" fill="#FFFFFF" cx="893.255" cy="151.573" rx="49.391" ry="39.321"/>
 		<circle id="_x33_" fill="#FFFFFF" cx="807.824" cy="144.052" r="43.789"/>
-		
-			<ellipse id="_x32_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 34.4293 -127.317)" fill="#FFFFFF" cx="926.063" cy="182.114" rx="47.031" ry="21.588"/>
-		
-			<ellipse id="_x31_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 30.4402 -108.5787)" fill="#FFFFFF" cx="790.275" cy="162.998" rx="74.879" ry="42.406"/>
+		<ellipse id="_x32_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 34.4293 -127.317)" fill="#FFFFFF" cx="926.063" cy="182.114" rx="47.031" ry="21.588"/>
+		<ellipse id="_x31_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 30.4402 -108.5787)" fill="#FFFFFF" cx="790.275" cy="162.998" rx="74.879" ry="42.406"/>
+	</g>
+	<!-- cloud by Jan Christoph Borchardt, The Noun Project http://thenounproject.com/noun/cloud/#icon-No932 -->
+	<g id="Cloud_5" class="cloud" transform="translate(10, 100) scale(2)">
+		<path fill="#FFFFFF" d="m 77.959,55.154 -66.677,0 C 5.061,55.154 0,50.093 0,43.873 0,38.595 3.643,34.152 8.546,32.927 10.734,27.458 15.794,23.541 21.695,22.838 22.317,10.14 32.843,0 45.693,0 c 9.417,0 17.822,5.536 21.723,13.756 3.203,-1.75 6.812,-2.682 10.543,-2.682 12.153,0 22.041,9.887 22.041,22.04 0,12.153 -9.887,22.04 -22.041,22.04 z"/>
+	</g>
+	<!-- cloud by James Fenton, The Noun Project http://thenounproject.com/noun/cloud/#icon-No3765 -->
+	<g id="Cloud_6" class="cloud" transform="translate(350, 200) scale(0.5)">	
+		<path fill="#FFFFFF" d="M100,44.587c0-10.434-7.629-19.082-17.609-20.679  c0.359-0.847,0.558-1.778,0.558-2.757c0-3.892-3.155-7.049-7.05-7.049c-1.784,0-3.408,0.668-4.65,1.761  C70.362,6.957,62.848,0,53.709,0c-7.545,0-13.981,4.742-16.495,11.41c-4.005,1.697-7.548,4.27-10.395,7.474  c-2.773-1.964-6.157-3.124-9.814-3.124C7.613,15.76,0,23.374,0,32.766c0,5.069,2.222,9.618,5.741,12.733  c-2.703,1.732-4.498,4.762-4.498,8.21c0,5.384,4.364,9.748,9.748,9.748c1.401,0,2.732-0.3,3.938-0.831  c3.138,7.317,10.406,12.443,18.872,12.443c6.583,0,12.437-3.1,16.195-7.918c0.493-0.023,0.985-0.062,1.473-0.109  c2.438,5.695,8.095,9.688,14.684,9.688c7.207,0,13.299-4.777,15.283-11.337C91.881,64.209,100,55.349,100,44.587z"/>
+	</g>
+	<!-- cloud by Hugo Filipe, The Noun Project http://thenounproject.com/noun/cloud/#icon-No9985 -->
+	<g id="Cloud_7" class="cloud" transform="translate(500, -100) scale(0.5)">	
+		<path fill="#FFFFFF" d="M594.368,278.534c-3.917-32.088-32.922-57.021-68.15-57.021c-4.586,0-9.063,0.441-13.398,1.248  c-13.542-37.263-51.075-64.104-95.355-64.104c-45.964,0-84.668,28.908-96.797,68.389c-5.904-0.931-11.926-1.528-18.11-1.528  c-60.094,0-108.821,45.732-108.821,102.143c0,56.413,48.728,102.146,108.821,102.146c22.862,0,44.053-6.648,61.566-17.952  c12.577,13.272,30.848,21.682,51.256,21.682c21.767,0,41.137-9.546,53.712-24.387c11.117,7.271,24.604,11.565,39.177,11.565  c18.729,0,35.688-7.061,48.069-18.476c6.495,1.911,13.401,2.949,20.563,2.949c37.901,0,68.639-28.843,68.639-64.421  C645.539,310.866,623.797,285.797,594.368,278.534z"/>
+	</g>
+	<!-- cloud from The Noun Project http://thenounproject.com/noun/cloud/#icon-No17479 -->
+	<g id="Cloud_8" class="cloud" transform="translate(570, 180) scale(1)">	
+		<path fill="#FFFFFF" d="M88.361,53.688c-0.021,0-0.043,0.004-0.067,0.004c0.014-0.221,0.067-0.432,0.067-0.658c0-7.117-5.769-12.884-12.885-12.884   c-3.419,0-6.508,1.354-8.814,3.528c0.003-0.121,0.019-0.24,0.019-0.361c0-11.801-9.569-21.372-21.375-21.372   c-11.804,0-21.375,9.571-21.375,21.372c0,0.505,0.04,1.001,0.075,1.497c-2.169-1.017-4.581-1.6-7.133-1.6   C7.554,43.213,0,51.292,0,60.61S7.554,78,16.873,78h71.488C94.788,78,100,72.271,100,65.845   C100,59.417,94.788,53.688,88.361,53.688z"/>
 	</g>
 </g>
-<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="472.683,594.1 467.314,595.783 415.748,412.641 "/>
-<rect x="1.139" y="618.208" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="463.799" height="5.625"/>
-<rect x="1.088" y="602.965" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="464.812" height="5.625"/>
 <g id="Barn">
 	<polygon fill="#565656" points="87.188,359.391 97.188,353.641 95.438,345.573 79.28,334.213 53.67,334.6 38.688,343.734 
 		32.688,360.891 44.688,362.224 	"/>
@@ -1320,7 +1312,6 @@
 		205.854,439.641 213.527,439.606 221.271,441.142 217.188,487.225 	"/>
 	<polygon fill="#A88686" points="185.104,385.445 182.271,417.413 208.104,418.309 209.604,387.205 	"/>
 </g>
-<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="476.361,576.535 471.054,578.4 413.277,397.121 "/>
 <g id="Cow">
 	<path id="Back_leg_1_" fill="#FFFFFF" d="M299.428,549.798c-0.112,3.827-0.335,7.666-0.335,11.494c0,1.104,0,2.207,0,3.311
 		c0,0.508-0.317,2.419,0,2.826c0.353,0.452,2.058,0.414,2.624,0.64c1.01,0.4,2.02,0.804,3.027,1.203
@@ -1428,71 +1419,76 @@
 	<path class="cowspot" d="M335.668,541.493c-3.439-7.719-22.008-2.94-18.691,3.053C321.481,552.691,341.134,547.729,335.668,541.493L335.668,541.493
 		z"/>
 </g>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M469.805,598.029v-44c0,0,0,0,4.066,5.045l3.615,28.485v45.5
-	L469.805,598.029z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M439.576,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H439.576z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M420.875,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H420.875z"/>
-<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="468.182,605.581 477.486,595.639 477.486,603.545 
-	472.275,608.266 "/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M402.166,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H402.166z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M382.231,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H382.231z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M361.531,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H361.531z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M342.822,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H342.822z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M322.888,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H322.888z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M304.188,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H304.188z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M285.479,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H285.479z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M265.543,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H265.543z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M245.868,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H245.868z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M227.159,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H227.159z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M207.225,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H207.225z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M188.523,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H188.523z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M169.814,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H169.814z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M149.88,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H149.88z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M129.18,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H129.18z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M110.471,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H110.471z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M90.536,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H90.536z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M71.835,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H71.835z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M53.126,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H53.126z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M33.191,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H33.191z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M12.701,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H12.701z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M460.317,567.934v-44c0,0,0,0,3.535,5.045l3.146,28.486v45.5
-	L460.317,567.934z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M451.584,539.807v-44c0,0-0.201,0,3.335,5.045l3.146,28.486v45.5
-	L451.584,539.807z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M385.005,380.193v-4.818c0,0,0,0,1.199,0.695l1.067,3.927
-	L385.005,380.193z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M386.545,380.083v-6.329c0,0,0,0,1.199,0.913l1.068,5.159
-	L386.545,380.083z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M442.975,507.861l-0.805-40.16c0,0,0,0,3.536,4.604l3.145,26
-	l0.806,41.528L442.975,507.861z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M433.654,478.955l-0.604-33.78c0,0,0,0,3.536,3.874l3.146,21.869
-	l0.604,34.932L433.654,478.955z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M425.317,454.473l-0.604-29.523c0,0,0,0,3.536,3.386l3.145,19.114
-	l0.604,30.529L425.317,454.473z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M418.459,432.012l-0.805-24.615c0,0,0,0,2.947,2.822l2.621,15.938
-	v25.454L418.459,432.012z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M411.134,411.561v-20.719c0,0,0,0,2.02,2.375l3.103,13.415v21.425
-	L411.134,411.561z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M405.642,396.13v-18.25c0,0,0,0,2.187,2.092l1.943,11.816v18.872
-	L405.642,396.13z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M383.523,380.325v-3.104c0,0,0,0,0.782,0.448l0.697,2.53
-	L383.523,380.325z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M397.656,379.497v-10.491c0,0,0,0,1.267,1.202l1.128,6.793v10.848
-	L397.656,379.497z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M394.235,376.274v-8.539c0,0,0,0,1.216,0.979l1.082,5.529v8.829
-	L394.235,376.274z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M388.763,379.908v-7.859c0,0,0,0,1.199,1.134l1.068,6.405
-	L388.763,379.908z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M391.504,379.707v-10.22c0,0,0,0,1.199,1.475l1.068,8.328
-	L391.504,379.707z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M401.15,385.867v-13.134c0,0,0,0,1.715,1.505l1.524,8.504v13.582
-	L401.15,385.867z"/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M382.042,380.475v-1.939c0,0,0,0,0.783,0.28l0.696,1.582
-	L382.042,380.475z"/>
-<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="467.623,621.572 476.928,611.63 476.928,619.536 
-	471.717,624.257 "/>
-<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M459.511,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H459.511z"/>
-<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="0.604,637.016 0.604,580.333 6.771,593.167 6.771,637.016 
-	"/>
+<g id="Fence">
+	<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="472.683,594.1 467.314,595.783 415.748,412.641 "/>
+	<rect x="1.139" y="618.208" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="463.799" height="5.625"/>
+	<rect x="1.088" y="602.965" fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" width="464.812" height="5.625"/>
+	<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="476.361,576.535 471.054,578.4 413.277,397.121 "/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M469.805,598.029v-44c0,0,0,0,4.066,5.045l3.615,28.485v45.5
+		L469.805,598.029z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M439.576,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H439.576z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M420.875,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H420.875z"/>
+	<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="468.182,605.581 477.486,595.639 477.486,603.545 
+		472.275,608.266 "/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M402.166,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H402.166z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M382.231,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H382.231z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M361.531,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H361.531z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M342.822,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H342.822z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M322.888,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H322.888z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M304.188,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H304.188z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M285.479,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H285.479z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M265.543,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H265.543z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M245.868,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H245.868z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M227.159,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H227.159z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M207.225,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H207.225z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M188.523,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H188.523z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M169.814,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H169.814z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M149.88,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H149.88z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M129.18,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H129.18z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M110.471,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H110.471z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M90.536,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H90.536z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M71.835,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H71.835z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M53.126,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H53.126z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M33.191,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H33.191z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M12.701,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H12.701z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M460.317,567.934v-44c0,0,0,0,3.535,5.045l3.146,28.486v45.5
+		L460.317,567.934z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M451.584,539.807v-44c0,0-0.201,0,3.335,5.045l3.146,28.486v45.5
+		L451.584,539.807z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M385.005,380.193v-4.818c0,0,0,0,1.199,0.695l1.067,3.927
+		L385.005,380.193z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M386.545,380.083v-6.329c0,0,0,0,1.199,0.913l1.068,5.159
+		L386.545,380.083z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M442.975,507.861l-0.805-40.16c0,0,0,0,3.536,4.604l3.145,26
+		l0.806,41.528L442.975,507.861z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M433.654,478.955l-0.604-33.78c0,0,0,0,3.536,3.874l3.146,21.869
+		l0.604,34.932L433.654,478.955z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M425.317,454.473l-0.604-29.523c0,0,0,0,3.536,3.386l3.145,19.114
+		l0.604,30.529L425.317,454.473z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M418.459,432.012l-0.805-24.615c0,0,0,0,2.947,2.822l2.621,15.938
+		v25.454L418.459,432.012z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M411.134,411.561v-20.719c0,0,0,0,2.02,2.375l3.103,13.415v21.425
+		L411.134,411.561z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M405.642,396.13v-18.25c0,0,0,0,2.187,2.092l1.943,11.816v18.872
+		L405.642,396.13z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M383.523,380.325v-3.104c0,0,0,0,0.782,0.448l0.697,2.53
+		L383.523,380.325z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M397.656,379.497v-10.491c0,0,0,0,1.267,1.202l1.128,6.793v10.848
+		L397.656,379.497z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M394.235,376.274v-8.539c0,0,0,0,1.216,0.979l1.082,5.529v8.829
+		L394.235,376.274z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M388.763,379.908v-7.859c0,0,0,0,1.199,1.134l1.068,6.405
+		L388.763,379.908z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M391.504,379.707v-10.22c0,0,0,0,1.199,1.475l1.068,8.328
+		L391.504,379.707z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M401.15,385.867v-13.134c0,0,0,0,1.715,1.505l1.524,8.504v13.582
+		L401.15,385.867z"/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M382.042,380.475v-1.939c0,0,0,0,0.783,0.28l0.696,1.582
+		L382.042,380.475z"/>
+	<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="467.623,621.572 476.928,611.63 476.928,619.536 
+		471.717,624.257 "/>
+	<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M459.511,637.016v-44c0,0,0,0,6.75-13.5l6,12v45.5H459.511z"/>
+	<polygon fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" points="0.604,637.016 0.604,580.333 6.771,593.167 6.771,637.016 "/>
+</g>
 <rect id="Ground_Cover" x="0" y="0" opacity="0.39" width="1008" height="648"/>
 </svg>
