@@ -391,13 +391,15 @@ function updateWeather(weather)
 	}
 		
 	// HANDLE CLOUD COVER
-	// right cloud shows when cloud cover >= 10%
-	// left cloud shows when cloud cover >= 30%
-	var rightCloudOpacity = (weather.cloudCover >= 0.33 ? .5 : 0);
-	var leftCloudOpacity = (weather.cloudCover >= 0.66 ? .5 : 0);
-	$("#Right_Cloud").css("opacity",rightCloudOpacity);
-	$("#Left_Cloud").css("opacity",leftCloudOpacity);
-	// #TODO: MORE CLOUDS!
+	// not satisfied with any part of this - most relevantly, #dry. poor form. #todo.
+	var cloud1Opacity = (weather.cloudCover >= 0.10 ? .5 : 0);
+	var cloud3Opacity = (weather.cloudCover >= 0.25 ? .5 : 0);
+	var cloud4Opacity = (weather.cloudCover >= 0.50 ? .5 : 0);
+	var cloud2Opacity = (weather.cloudCover >= 0.80 ? .5 : 0);
+	$("#Cloud_1").css("opacity",cloud1Opacity);
+	$("#Cloud_2").css("opacity",cloud2Opacity);
+	$("#Cloud_3").css("opacity",cloud3Opacity);
+	$("#Cloud_4").css("opacity",cloud4Opacity);
 	
 	// HANDLE RAIN
 	if(weather.precipIntensity > 0 && weather.precipType == "rain") {

@@ -1200,7 +1200,8 @@
 			</g>
 		</g>
 	</g>
-	<g id="Right_Cloud">
+	<!-- Numbered left to right -->
+	<g id="Cloud_1" transform="translate(-60 40)">
 		
 			<ellipse id="_x31_2" transform="matrix(0.9923 0.1238 -0.1238 0.9923 17.7957 -23.5856)" fill="#FFFFFF" cx="198.678" cy="131.4" rx="58.493" ry="54.842"/>
 		
@@ -1214,7 +1215,39 @@
 		
 			<ellipse id="_x36_" transform="matrix(0.531 -0.8474 0.8474 0.531 -65.0676 194.0161)" fill="#FFFFFF" cx="142.735" cy="155.788" rx="18" ry="31.171"/>
 	</g>
-	<g id="Left_Cloud">
+	<g id="Cloud_2" transform="translate(-40)">
+		<g>
+			<path id="_x31_2_1_" fill="#FFFFFF" d="M470.981,76.599c31.941-4,58.75,11.037,59.876,33.587
+				c1.126,22.549-23.856,44.071-55.8,48.072c-31.942,4-58.75-11.036-59.876-33.586S439.037,80.6,470.981,76.599z"/>
+		
+				<ellipse id="_x31_1_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 361.47 528.7804)" fill="#FFFFFF" cx="421.701" cy="99.668" rx="32.752" ry="53.996"/>
+		
+				<ellipse id="_x31_0_1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 447.3981 558.76)" fill="#FFFFFF" cx="478.334" cy="75.494" rx="21.643" ry="27.748"/>
+		
+				<ellipse id="_x38__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 442.9956 648.3987)" fill="#FFFFFF" cx="516.976" cy="122.324" rx="22.746" ry="29.185"/>
+		
+				<ellipse id="_x37__1_" transform="matrix(-0.0925 -0.9957 0.9957 -0.0925 475.3825 620.1558)" fill="#FFFFFF" cx="520.301" cy="93.443" rx="26.945" ry="51.62"/>
+		
+				<ellipse id="_x36__1_" transform="matrix(-0.9417 -0.3363 0.3363 -0.9417 753.1974 392.8076)" fill="#FFFFFF" cx="410.62" cy="131.17" rx="31.172" ry="18.001"/>
+		</g>
+	</g>
+	<g id="Cloud_3" transform="translate(-280 40)">
+		<g>
+		
+				<ellipse id="_x35__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 784.405 949.3726)" fill="#FFFFFF" cx="840.483" cy="104.301" rx="42.403" ry="74.876"/>
+		
+				<ellipse id="_x34__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 692.7745 918.2049)" fill="#FFFFFF" cx="779.945" cy="131.989" rx="39.319" ry="49.39"/>
+		
+				<ellipse id="_x33__1_" transform="matrix(-0.1958 -0.9806 0.9806 -0.1958 843.251 840.4701)" fill="#FFFFFF" cx="766.25" cy="74.471" rx="43.788" ry="57.829"/>
+		
+				<ellipse id="_x32__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 826.0155 917.0826)" fill="#FFFFFF" cx="846.028" cy="68.521" rx="21.587" ry="47.031"/>
+		
+				<ellipse id="_x31__1_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 682.3956 857.1285)" fill="#FFFFFF" cx="745.922" cy="106.346" rx="42.404" ry="74.876"/>
+		
+				<ellipse id="_x32__2_" transform="matrix(-0.0572 -0.9984 0.9984 -0.0572 607.1622 837.3456)" fill="#FFFFFF" cx="698.952" cy="131.988" rx="21.587" ry="47.031"/>
+		</g>
+	</g>
+	<g id="Cloud_4" transform="translate(40 -10)">
 		
 			<ellipse id="_x35_" transform="matrix(0.9902 0.1394 -0.1394 0.9902 31.0544 -119.1454)" fill="#FFFFFF" cx="866.029" cy="162.105" rx="74.879" ry="42.405"/>
 		

@@ -56,6 +56,7 @@ h1.night {
 
 /* Landscape phones and down */
 @media (max-width: 767px) {
+	/* #todo: use this as fallback when dynamic svg unavailable */
 	/* body {
 		background-image:url('../img/background.svg');
 		background-size:cover;
@@ -113,16 +114,13 @@ h1.night {
 	height:100%;
 	z-index:0;
 }
-#Left_Cloud, #Right_Cloud {
+#Cloud_1, #Cloud_2, #Cloud_3, #Cloud_4 {
 	opacity: 0;
 	transition: opacity 5s;
 }
-#Left_Cloud.play, #Right_Cloud.play {
+/* .play is currently unused */
+/* #Cloud_1.play, #Cloud_2.play, #Cloud_3.play, #Cloud_4.play {
 	transition: opacity 3s;
-}
-/* #Sun {
-	transition: -webkit-transform 5s;
-	transition: transform 5s;
 }
 #Sun.play {
 	transition: -webkit-transform 1s;
