@@ -393,14 +393,22 @@ function updateWeather(weather)
 		
 	// HANDLE CLOUD COVER
 	// not satisfied with any part of this - most relevantly, #dry. poor form. #todo.
-	var cloud1Opacity = (weather.cloudCover >= 0.10 ? .5 : 0);
-	var cloud3Opacity = (weather.cloudCover >= 0.25 ? .5 : 0);
-	var cloud4Opacity = (weather.cloudCover >= 0.50 ? .5 : 0);
-	var cloud2Opacity = (weather.cloudCover >= 0.80 ? .5 : 0);
+	var cloud5Opacity = (weather.cloudCover >= 0.10 ? .5 : 0);
+	var cloud3Opacity = (weather.cloudCover >= 0.20 ? .5 : 0);
+	var cloud8Opacity = (weather.cloudCover >= 0.30 ? .5 : 0);
+	var cloud4Opacity = (weather.cloudCover >= 0.40 ? .5 : 0);
+	var cloud1Opacity = (weather.cloudCover >= 0.50 ? .5 : 0);
+	var cloud2Opacity = (weather.cloudCover >= 0.60 ? .5 : 0);
+	var cloud6Opacity = (weather.cloudCover >= 0.70 ? .5 : 0);
+	var cloud7Opacity = (weather.cloudCover >= 0.90 ? .5 : 0);
 	$("#Cloud_1").css("opacity",cloud1Opacity);
 	$("#Cloud_2").css("opacity",cloud2Opacity);
 	$("#Cloud_3").css("opacity",cloud3Opacity);
 	$("#Cloud_4").css("opacity",cloud4Opacity);
+	$("#Cloud_5").css("opacity",cloud5Opacity);
+	$("#Cloud_6").css("opacity",cloud6Opacity);
+	$("#Cloud_7").css("opacity",cloud7Opacity);
+	$("#Cloud_8").css("opacity",cloud8Opacity);
 	
 	// HANDLE RAIN
 	if(weather.precipIntensity > 0 && weather.precipType == "rain") {
@@ -440,7 +448,7 @@ function meltingTime() {
 		$("h1").html("Your ice cream will never melt!");
 	} else {
 		var meltTimeDisplay = Math.round(meltTime);
-		$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");	
+		$("h1").html("Your ice cream will melt in " + meltTimeDisplay + "&nbsp;minutes.");	
 	}
 	
 }
