@@ -22,7 +22,14 @@ body {
 	pointer-events: none;
 }
 
-#footer button {
+#footer button, #footer .popover {
+	pointer-events: auto;
+}
+
+#icecream-container {
+	pointer-events: none;
+}
+#Scoop {
 	pointer-events: auto;
 }
 
@@ -93,9 +100,24 @@ h1.night {
 	}
 	
 	h1 {
+		padding-top: 30px;
 		text-align: center;
 		color: white;
 		text-shadow: 1px 1px #000;
+	}
+	
+	.sm {
+		font-size: 0.7em;
+		line-height: 1.2em;
+	}
+	
+	.xsm {
+		font-size: 0.5em;
+		line-height: 1.2em;
+	}
+	
+	.linebr {
+		display: block;
 	}
 	
 	#raincloud, #snowcloud, #Barn, #Fence {

@@ -448,7 +448,7 @@ function meltingTime() {
 		$("h1").html("Your ice cream will never melt!");
 	} else {
 		var meltTimeDisplay = Math.round(meltTime);
-		$("h1").html("Your ice cream will melt in " + meltTimeDisplay + "&nbsp;minutes.");	
+		$("h1").html("<span class='xsm linebr'>Your ice cream</span> <span class='sm linebr'>will melt in </span><span class='linebr'>" + meltTimeDisplay + "&nbsp;minutes.</span>");	
 	}
 	
 }
