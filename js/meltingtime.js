@@ -436,8 +436,13 @@ function meltingTime() {
 	
 	var meltTime = flavorCoef * typeCoef * scoopSize * 71/(temp-10);
 	
-	var meltTimeDisplay = Math.round(meltTime);
-	$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");
+	if(isNaN(meltTime) || meltTime < 0 || meltTime == "Infinity") {
+		$("h1").html("Your ice cream will never melt!");
+	} else {
+		var meltTimeDisplay = Math.round(meltTime);
+		$("h1").html("Your ice cream will melt in " + meltTimeDisplay + " minutes.");	
+	}
+	
 }
 
 
